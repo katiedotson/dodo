@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="xyz.katiedotson.dodo.ui.fragments.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_addEditFragment"
+            app:destination="@id/addEditFragment">
+            <argument
+                android:name="todoId"
+                app:argType="long"
+                app:nullable="false" />
+        </action>
+        <argument
+            android:name="newTodoId"
+            android:defaultValue="0L"
+            app:argType="long"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_homeFragment_to_editLabelsFragment"
+            app:destination="@id/editLabelsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditFragment"
+        android:name="xyz.katiedotson.dodo.ui.fragments.addedit.AddEditFragment"
+        android:label="Add/Edit"
+        tools:layout="@layout/fragment_add_edit">
+        <argument
+            android:name="todoId"
+            android:defaultValue="0L"
+            app:argType="long"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_addEditFragment_to_homeFragment"
+            app:destination="@id/homeFragment">
+            <argument
+                android:name="newTodoId"
+                app:argType="long"
+                app:nullable="false" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/editLabelsFragment"
+        android:name="xyz.katiedotson.dodo.ui.fragments.labels.EditLabelsFragment"
+        android:label="fragment_edit_labels"
+        tools:layout="@layout/fragment_edit_labels" />
+</navigation>

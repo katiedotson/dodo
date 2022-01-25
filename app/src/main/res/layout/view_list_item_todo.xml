@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/standard_padding"
+    app:cardElevation="@dimen/card_elevation">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/standard_padding">
+
+        <LinearLayout
+            android:id="@+id/titleAndDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/TextAppearance.Dodo.Headline6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard_padding"
+                android:layout_weight="4"
+                tools:text="This is a test. This is a test to see if the text breaks." />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/date"
+            style="@style/TextAppearance.Dodo.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/standard_padding"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleAndDelete"
+            tools:text="12/26/2021" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deleteBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher"
+            style="@style/Widget.Dodo.Button.TextButton.Red"
+            android:text="Delete" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/editBtn"
+            style="@style/Widget.Dodo.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="Edit"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date" />
+
+        <!--                <androidx.recyclerview.widget.RecyclerView-->
+        <!--                    android:id="@+id/labels"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginHorizontal="@dimen/standard_padding"-->
+        <!--                    android:layout_marginVertical="@dimen/small_padding"-->
+        <!--                    android:orientation="horizontal"-->
+        <!--                    android:paddingBottom="@dimen/standard_padding"-->
+        <!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@id/date"-->
+        <!--                    tools:listitem="@layout/view_list_item_todo_label" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
+

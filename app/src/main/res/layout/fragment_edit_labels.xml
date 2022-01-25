@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.fragments.labels.EditLabelsFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:padding="@dimen/large_padding"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context="xyz.katiedotson.dodo.MainActivity"
+        tools:listitem="@layout/view_label_chip_list_item" />
+
+    <FrameLayout
+        android:id="@+id/bottomSheet"
+        style="?attr/bottomSheetStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/large_padding"
+        app:behavior_peekHeight="400dp"
+        app:behavior_draggable="false"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.Dodo.Headline6.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/standard_padding"
+                android:text="Add a new label" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/large_padding"
+                android:hint="Label title">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nameField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/TextAppearance.Dodo.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/standard_padding"
+                android:text="Label color" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="White"
+                    android:textColor="@color/grey"
+                    app:checkedIconTint="@color/grey"
+                    app:chipBackgroundColor="@color/pure_white" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Black"
+                    android:textColor="@color/white"
+                    app:checkedIconTint="@color/white"
+                    app:chipBackgroundColor="@color/black" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Brunswick Green"
+                    android:textColor="@color/pure_white"
+                    app:checkedIconTint="@color/pure_white"
+                    app:chipBackgroundColor="@color/brunswick_green" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rust"
+                    android:textColor="@color/pure_white"
+                    app:checkedIconTint="@color/pure_white"
+                    app:chipBackgroundColor="@color/rust" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Charcoal Blue"
+                    android:textColor="@color/pure_white"
+                    app:checkedIconTint="@color/pure_white"
+                    app:chipBackgroundColor="@color/charcoal_blue" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Burnt Orange"
+                    android:textColor="@color/pure_white"
+                    app:checkedIconTint="@color/pure_white"
+                    app:chipBackgroundColor="@color/burnt_orange" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Prussian Blue"
+                    android:textColor="@color/pure_white"
+                    app:checkedIconTint="@color/pure_white"
+                    app:chipBackgroundColor="@color/prussian_blue" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Honey Yellow"
+                    android:textColor="@color/grey"
+                    app:checkedIconTint="@color/grey"
+                    app:chipBackgroundColor="@color/honey_yellow" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pale Pink"
+                    android:textColor="@color/grey"
+                    app:checkedIconTint="@color/grey"
+                    app:chipBackgroundColor="@color/pale_pink" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blue"
+                    android:textColor="@color/grey"
+                    app:checkedIconTint="@color/grey"
+                    app:chipBackgroundColor="@color/blue" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

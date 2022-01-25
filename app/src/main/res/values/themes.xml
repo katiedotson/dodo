@@ -1,0 +1,164 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Dodo" parent="Theme.MaterialComponents.Light.NoActionBar">
+
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/prussian_blue</item>
+        <item name="colorPrimaryVariant">@color/charcoal_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/rust</item>
+        <item name="colorSecondaryVariant">@color/burnt_orange</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
+
+        <!-- Customize your theme here. -->
+        <item name="toolbarStyle">@style/Widget.Dodo.Toolbar</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Dodo.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Dodo.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Dodo.LargeComponent</item>
+        <item name="textInputStyle">@style/Widget.Dodo.TextInputLayout</item>
+        <item name="bottomSheetStyle">@style/Widget.Dodo.BottomSheetStyle</item>
+        <item name="chipStyle">@style/Widget.Dodo.Chip</item>
+
+
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+    </style>
+
+    <!--    Toolbar -->
+    <style name="Widget.Dodo.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Dodo.Toolbar</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Dodo.Headline5</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.Dodo.Subtitle1</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+<!--    Bottom sheet-->
+    <style name="Widget.Dodo.BottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="android:background">@drawable/shape_todo_list_item</item>
+    </style>
+
+<!--    Chip -->
+    <style name="Widget.Dodo.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipStrokeColor">@color/light_gray</item>
+        <item name="checkedIconVisible">true</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Dodo.CircleChip</item>
+    </style>
+
+    <!-- Button -->
+    <style name="Widget.Dodo.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.Dodo.Button</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="Widget.Dodo.Button.TextButton.Red" parent="Widget.Dodo.Button.TextButton">
+        <item name="android:textColor">@color/rust</item>
+    </style>
+
+    <style name="Widget.Dodo.Button" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Dodo.Button</item>
+    </style>
+
+    <!--    Text inputs -->
+    <style name="Widget.Dodo.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Dodo.SmallComponent</item>
+        <item name="hintTextColor">@color/grey</item>
+    </style>
+
+    <style name="Widget.Dodo.TextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textAppearance">@style/TextAppearance.Dodo.Body1</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="colorOnPrimary">@color/grey</item>
+    </style>
+
+    <!-- Text appearances -->
+
+    <style name="TextAppearance.Dodo.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/roboto_light</item>
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
+
+    <style name="TextAppearance.Dodo.Body2" parent="TextAppearance.MaterialComponents.Body2">
+
+    </style>
+
+    <style name="TextAppearance.Dodo.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/roboto_light</item>
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
+
+    <style name="TextAppearance.Dodo.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="TextAppearance.Dodo.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="TextAppearance.Dodo.Headline6.Bold" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/roboto_black</item>
+    </style>
+
+    <style name="TextAppearance.Dodo.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="TextAppearance.Dodo.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!--    Shapes-->
+    <style name="ShapeAppearance.Dodo.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">6dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Dodo.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Dodo.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Dodo.CircleChip" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">50dp</item>
+    </style>
+
+    <!--    Overlays -->
+    <style name="ThemeOverlay.App.TextInputLayout" parent="">
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Dodo.Subtitle1</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.Dodo.Caption</item>
+        <item name="editTextStyle">@style/Widget.Dodo.TextInputEditText</item>
+    </style>
+
+    <style name="ThemeOverlay.Dodo.Toolbar" parent="">
+        <item name="colorPrimary">@color/prussian_blue</item>
+        <item name="colorPrimaryVariant">@color/charcoal_blue</item>
+        <item name="colorOnPrimary">@color/pure_white</item>
+    </style>
+
+    <style name="ThemeOverlay.Dodo.Button" parent="">
+        <item name="colorPrimary">@color/brunswick_green</item>
+        <item name="colorOnPrimary">@color/pure_white</item>
+    </style>
+
+</resources>

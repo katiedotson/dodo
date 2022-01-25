@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--spacing-->
+    <dimen name="standard_padding">8dp</dimen>
+    <dimen name="small_padding">4dp</dimen>
+    <dimen name="large_padding">20dp</dimen>
+
+    <!--elevation-->
+    <dimen name="card_elevation">4dp</dimen>
+</resources>
