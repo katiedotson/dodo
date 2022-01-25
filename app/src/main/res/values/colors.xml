@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue">#2196F3</color>
-    <color name="teal">#329088</color>
+    <!--    App colors    -->
     <color name="prussian_blue">#17395c</color>
     <color name="charcoal_blue">#253648</color>
     <color name="rust">#bf3616</color>
     <color name="burnt_orange">#ba5828</color>
     <color name="brunswick_green">#325843</color>
-    <color name="honey_yellow">#FFC107</color>
-    <color name="pale_pink">#CA8BA0</color>
     <color name="black">#1e2400</color>
     <color name="white">#f5f5f5FF</color>
     <color name="pure_white">#ffffff</color>
     <color name="light_gray">#b8b8b8</color>
     <color name="grey">#333333</color>
+
+    <!--    Label colors    -->
+    <color name="navajo_white">#f9ddab</color>
+    <color name="chrome_yellow">#F9A706</color>
+    <color name="orange_blaze">#FF6704</color>
+    <color name="candy_apple">#E7062E</color>
+    <color name="purple_pink">#A2217E</color>
+    <color name="blue_violet">#511296</color>
+    <color name="midnight_blue">#020759</color>
+    <color name="cerulean_blue">#114FC6</color>
+    <color name="sea_green">#038C5E</color>
+    <color name="mantis">#7FC24F</color>
+    <color name="pure_black">#000000</color>
 </resources>

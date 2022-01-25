@@ -26,8 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/large_padding"
-        app:behavior_peekHeight="400dp"
         app:behavior_draggable="false"
+        app:behavior_peekHeight="350dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <LinearLayout
@@ -82,73 +82,34 @@
                     android:text="Black"
                     android:textColor="@color/white"
                     app:checkedIconTint="@color/white"
-                    app:chipBackgroundColor="@color/black" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Brunswick Green"
-                    android:textColor="@color/pure_white"
-                    app:checkedIconTint="@color/pure_white"
-                    app:chipBackgroundColor="@color/brunswick_green" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rust"
-                    android:textColor="@color/pure_white"
-                    app:checkedIconTint="@color/pure_white"
-                    app:chipBackgroundColor="@color/rust" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Charcoal Blue"
-                    android:textColor="@color/pure_white"
-                    app:checkedIconTint="@color/pure_white"
-                    app:chipBackgroundColor="@color/charcoal_blue" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Burnt Orange"
-                    android:textColor="@color/pure_white"
-                    app:checkedIconTint="@color/pure_white"
-                    app:chipBackgroundColor="@color/burnt_orange" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Prussian Blue"
-                    android:textColor="@color/pure_white"
-                    app:checkedIconTint="@color/pure_white"
-                    app:chipBackgroundColor="@color/prussian_blue" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Honey Yellow"
-                    android:textColor="@color/grey"
-                    app:checkedIconTint="@color/grey"
-                    app:chipBackgroundColor="@color/honey_yellow" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pale Pink"
-                    android:textColor="@color/grey"
-                    app:checkedIconTint="@color/grey"
-                    app:chipBackgroundColor="@color/pale_pink" />
-
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Blue"
-                    android:textColor="@color/grey"
-                    app:checkedIconTint="@color/grey"
-                    app:chipBackgroundColor="@color/blue" />
+                    app:chipBackgroundColor="@color/pure_black" />
 
             </com.google.android.material.chip.ChipGroup>
+
+            <include
+                layout="@layout/view_horizontal_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="@dimen/large_padding" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end">
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.Dodo.Button.TextButton.Red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clear" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.Dodo.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save"
+                    android:textAllCaps="true" />
+            </LinearLayout>
 
         </LinearLayout>
 
