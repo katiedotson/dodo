@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import xyz.katiedotson.dodo.common.Event
+import xyz.katiedotson.dodo.data.dto.LabelColor
 import xyz.katiedotson.dodo.data.label.Label
 import xyz.katiedotson.dodo.data.label.LabelRepository
 import xyz.katiedotson.dodo.ui.base.BaseViewModel
@@ -18,6 +19,7 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
     BaseViewModel() {
 
     val labels: LiveData<List<Label>> = labelRepository.labelsFlow.asLiveData()
+    val colors = LabelColor.getAllLabelColors()
 
     private val _labelCreatedEvent: MutableLiveData<Event<LabelCreatedEvent>> = MutableLiveData()
     val labelCreatedEvent get() = _labelCreatedEvent

@@ -1,7 +1,11 @@
 package xyz.katiedotson.dodo.ui.fragments.labels
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -12,6 +16,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.katiedotson.dodo.R
+import xyz.katiedotson.dodo.data.dto.LabelColor
 import xyz.katiedotson.dodo.data.label.Label
 import xyz.katiedotson.dodo.ui.base.BaseFragment
 import xyz.katiedotson.dodo.databinding.FragmentEditLabelsBinding
@@ -28,6 +33,20 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
 
         binding.chipGroup.isSelectionRequired = true
         binding.chipGroup.isSingleSelection = true
+
+        viewModel.colors.forEach {
+            val chip = Chip(requireContext())
+            chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(it.hex))
+            chip.text = it.colorName
+            chip.isCheckable = true
+            if (it.useWhiteText) {
+                chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            }
+            if(it.useBorder) {
+
+            }
+            binding.chipGroup.addView(chip)
+        }
 
         val adapter = LabelAdapter(object : LabelAdapter.LabelClickListener {
             override fun onLabelChipClick(label: Label) {
@@ -62,7 +81,7 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
                 clearAddLabelForm(binding)
             }
             viewState.observe(viewLifecycleOwner) {
-                when(it) {
+                when (it) {
                     is EditLabelsViewModel.EditLabelsViewState.NewLabel -> {
                         binding.bottomSheetTitle.text = "Add a new label"
                     }
@@ -118,7 +137,7 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
 
     private fun setSheetExpanded(binding: FragmentEditLabelsBinding, expand: Boolean) {
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
-        bottomSheetBehavior.state = if(expand) STATE_EXPANDED else STATE_COLLAPSED
+        bottomSheetBehavior.state = if (expand) STATE_EXPANDED else STATE_COLLAPSED
     }
 
 }
