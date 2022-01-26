@@ -22,7 +22,6 @@
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Dodo.LargeComponent</item>
         <item name="textInputStyle">@style/Widget.Dodo.TextInputLayout</item>
         <item name="bottomSheetStyle">@style/Widget.Dodo.BottomSheetStyle</item>
-        <item name="chipStyle">@style/Widget.Dodo.Chip</item>
 
 
         <item name="android:windowTranslucentStatus">true</item>
@@ -44,12 +43,20 @@
     </style>
 
 <!--    Chip -->
-    <style name="Widget.Dodo.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+    <style name="Widget.Dodo.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipStrokeWidth">1dp</item>
         <item name="chipStrokeColor">@color/light_gray</item>
         <item name="checkedIconVisible">true</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Dodo.CircleChip</item>
     </style>
+
+    <style name="Widget.Dodo.Chip.Action" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipStrokeColor">@color/light_gray</item>
+        <item name="checkedIconVisible">true</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Dodo.CircleChip</item>
+    </style>
+
 
     <!-- Button -->
     <style name="Widget.Dodo.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">

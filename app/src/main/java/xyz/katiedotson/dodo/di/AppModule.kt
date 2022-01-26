@@ -16,9 +16,14 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideDodoDatabase(@ApplicationContext app: Context): DodoDatabase = Room.databaseBuilder(app, DodoDatabase::class.java, "dodo-db").build()
+    fun provideDodoDatabase(@ApplicationContext app: Context): DodoDatabase =
+        Room.databaseBuilder(app, DodoDatabase::class.java, "dodo-db").build()
 
     @Singleton
     @Provides
     fun provideTodoDao(db: DodoDatabase) = db.todoDao()
+
+    @Singleton
+    @Provides
+    fun provideLabelDao(db: DodoDatabase) = db.labelDao()
 }

@@ -24,8 +24,6 @@ class AddEditViewModel @Inject constructor(private val repo: TodoRepository) : B
 
     private var _todo: Todo? = null
 
-    fun dueDate() = _todo?.dateDue
-
     private val _viewState: MutableLiveData<AddEditViewState> = MutableLiveData<AddEditViewState>()
     val viewState: LiveData<AddEditViewState> get() = _viewState
 

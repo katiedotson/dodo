@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:padding="@dimen/large_padding"
+        app:spanCount="4"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,8 +27,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/large_padding"
-        app:behavior_draggable="false"
-        app:behavior_peekHeight="350dp"
+        app:behavior_peekHeight="200dp"
+        app:behavior_expandedOffset="100dp"
+        app:behavior_hideable="false"
+        app:behavior_fitToContents="false"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <LinearLayout
@@ -36,6 +39,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/bottomSheetTitle"
                 style="@style/TextAppearance.Dodo.Headline6.Bold"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -64,10 +68,12 @@
                 android:text="Label color" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.chip.Chip
+                    style="@style/Widget.Dodo.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
@@ -77,6 +83,7 @@
                     app:chipBackgroundColor="@color/pure_white" />
 
                 <com.google.android.material.chip.Chip
+                    style="@style/Widget.Dodo.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Black"
@@ -98,12 +105,14 @@
                 android:layout_gravity="end">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/clearBtn"
                     style="@style/Widget.Dodo.Button.TextButton.Red"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Clear" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/saveBtn"
                     style="@style/Widget.Dodo.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
