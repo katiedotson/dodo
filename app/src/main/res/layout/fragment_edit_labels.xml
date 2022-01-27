@@ -14,7 +14,6 @@
         android:clipToPadding="false"
         android:layout_marginBottom="200dp"
         android:padding="@dimen/large_padding"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:context="xyz.katiedotson.dodo.MainActivity"
         tools:listitem="@layout/view_label_chip_list_item" />
 

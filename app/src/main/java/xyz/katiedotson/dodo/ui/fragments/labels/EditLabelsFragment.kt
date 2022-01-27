@@ -7,8 +7,6 @@ import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
@@ -16,7 +14,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.katiedotson.dodo.R
-import xyz.katiedotson.dodo.data.dto.LabelColor
 import xyz.katiedotson.dodo.data.label.Label
 import xyz.katiedotson.dodo.ui.base.BaseFragment
 import xyz.katiedotson.dodo.databinding.FragmentEditLabelsBinding
@@ -44,10 +41,44 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
             override fun onLabelChipClick(label: Label) {
                 viewModel.labelSelectedForEdit(label)
                 showLabelSelected(label, binding)
-                setSheetExpanded(binding, false)
+                setSheetExpanded(binding, true)
             }
         })
         binding.recycler.adapter = adapter
+
+        val layoutManager = GridLayoutManager(requireContext(), 10)
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val adapterList = adapter.currentList
+                return if (adapterList.size >= position) {
+                    val labelName = adapterList[position].name
+                    when {
+                        labelName.length <= 5 -> {
+                            3
+                        }
+                        labelName.length <= 10 -> {
+                            4
+                        }
+                        labelName.length <= 15 -> {
+                            5
+                        }
+                        labelName.length <= 20 -> {
+                            6
+                        }
+                        labelName.length <= 25 -> {
+                            7
+                        }
+                        labelName.length <= 30 -> {
+                            8
+                        }
+                        else -> {
+                            layoutManager.spanCount
+                        }
+                    }
+                } else 1
+            }
+        }
+        binding.recycler.layoutManager = layoutManager
 
         with(viewModel) {
             labels.observe(viewLifecycleOwner) {
@@ -123,8 +154,7 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
         binding.nameField.setText("")
         binding.nameField.clearFocus()
         binding.chipGroup.clearCheck()
-        val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
-        bottomSheetBehavior.state = STATE_COLLAPSED
+        setSheetExpanded(binding, false)
     }
 
     private fun setSheetExpanded(binding: FragmentEditLabelsBinding, expand: Boolean) {
