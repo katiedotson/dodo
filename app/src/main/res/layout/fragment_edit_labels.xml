@@ -12,11 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:layout_marginBottom="200dp"
         android:padding="@dimen/large_padding"
-        app:spanCount="4"
-        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:context="xyz.katiedotson.dodo.MainActivity"
         tools:listitem="@layout/view_label_chip_list_item" />
 
@@ -69,28 +67,7 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.Dodo.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="White"
-                    android:textColor="@color/grey"
-                    app:checkedIconTint="@color/grey"
-                    app:chipBackgroundColor="@color/pure_white" />
-
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.Dodo.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Black"
-                    android:textColor="@color/white"
-                    app:checkedIconTint="@color/white"
-                    app:chipBackgroundColor="@color/pure_black" />
-
-            </com.google.android.material.chip.ChipGroup>
+                android:layout_height="wrap_content" />
 
             <include
                 layout="@layout/view_horizontal_divider"

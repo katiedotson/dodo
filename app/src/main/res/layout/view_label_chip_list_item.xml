@@ -12,4 +12,5 @@
     app:chipIconSize="20dp"
     app:chipIconTint="@color/white"
     app:chipStartPadding="@dimen/standard_padding"
+    android:layout_marginHorizontal="@dimen/small_padding"
     tools:text="Schoolwork" />
