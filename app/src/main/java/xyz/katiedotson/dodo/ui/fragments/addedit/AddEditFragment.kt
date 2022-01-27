@@ -8,10 +8,10 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.katiedotson.dodo.R
+import xyz.katiedotson.dodo.common.extensions.toggleVisible
 import xyz.katiedotson.dodo.ui.base.BaseFragment
 import xyz.katiedotson.dodo.data.todo.Todo
 import xyz.katiedotson.dodo.databinding.FragmentAddEditBinding
-import xyz.katiedotson.dodo.ui.extensions.toggleVisible
 
 @AndroidEntryPoint
 class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {

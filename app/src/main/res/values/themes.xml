@@ -34,7 +34,7 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.Dodo.Toolbar</item>
         <item name="titleTextAppearance">@style/TextAppearance.Dodo.Headline5</item>
         <item name="subtitleTextAppearance">@style/TextAppearance.Dodo.Subtitle1</item>
-<!--        <item name="android:fitsSystemWindows">true</item>-->
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
 <!--    Bottom sheet-->
@@ -51,8 +51,6 @@
     </style>
 
     <style name="Widget.Dodo.Chip.Action" parent="Widget.MaterialComponents.Chip.Action">
-        <item name="chipStrokeWidth">1dp</item>
-        <item name="chipStrokeColor">@color/light_gray</item>
         <item name="checkedIconVisible">true</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Dodo.CircleChip</item>
     </style>

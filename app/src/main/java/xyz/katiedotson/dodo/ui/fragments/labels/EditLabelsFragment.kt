@@ -1,11 +1,8 @@
 package xyz.katiedotson.dodo.ui.fragments.labels
 
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -21,6 +18,7 @@ import xyz.katiedotson.dodo.data.label.Label
 import xyz.katiedotson.dodo.ui.base.BaseFragment
 import xyz.katiedotson.dodo.databinding.FragmentEditLabelsBinding
 import xyz.katiedotson.dodo.ui.fragments.labels.recycler.LabelAdapter
+import xyz.katiedotson.dodo.ui.views.ColorLabelChip
 
 @AndroidEntryPoint
 class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
@@ -35,16 +33,7 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
         binding.chipGroup.isSingleSelection = true
 
         viewModel.colors.forEach {
-            val chip = Chip(requireContext())
-            chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(it.hex))
-            chip.text = it.colorName
-            chip.isCheckable = true
-            if (it.useWhiteText) {
-                chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            }
-            if(it.useBorder) {
-
-            }
+            val chip = ColorLabelChip(requireContext(), it)
             binding.chipGroup.addView(chip)
         }
 
@@ -115,15 +104,15 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
 
     }
 
-    private fun findSelectedChipColor(checkedId: Int, binding: FragmentEditLabelsBinding): Int? {
+    private fun findSelectedChipColor(checkedId: Int, binding: FragmentEditLabelsBinding): String? {
         val chip = binding.root.findViewById<Chip?>(checkedId)
-        return chip?.chipBackgroundColor?.defaultColor
+        return if (chip != null) Integer.toHexString(chip.chipBackgroundColor!!.defaultColor) else null
     }
 
     private fun showLabelSelected(label: Label, binding: FragmentEditLabelsBinding) {
         binding.nameField.setText(label.name)
         (binding.chipGroup.children.find { view ->
-            (view as Chip).chipBackgroundColor?.defaultColor == label.color
+            (view as Chip).chipBackgroundColor?.defaultColor == Color.parseColor(label.colorHex)
         } as Chip).isChecked = true
     }
 

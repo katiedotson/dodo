@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import xyz.katiedotson.dodo.common.extensions.toggleVisible
 import xyz.katiedotson.dodo.data.todo.Todo
 import xyz.katiedotson.dodo.databinding.ViewListItemTodoBinding
-import xyz.katiedotson.dodo.ui.extensions.toggleVisible
 
 class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<Todo, RecyclerView.ViewHolder>(TodoDiffCallback()) {
 

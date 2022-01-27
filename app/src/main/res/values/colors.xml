@@ -8,20 +8,20 @@
     <color name="brunswick_green">#325843</color>
     <color name="black">#1e2400</color>
     <color name="white">#f5f5f5FF</color>
-    <color name="pure_white">#ffffff</color>
+    <color name="pure_white">#ffffffff</color>
     <color name="light_gray">#b8b8b8</color>
     <color name="grey">#333333</color>
 
     <!--    Label colors    -->
-    <color name="navajo_white">#F9DDAB</color>
-    <color name="chrome_yellow">#F9A706</color>
-    <color name="orange_blaze">#FF6704</color>
-    <color name="candy_apple">#E7062E</color>
-    <color name="purple_pink">#A2217E</color>
-    <color name="blue_violet">#511296</color>
-    <color name="midnight_blue">#020759</color>
-    <color name="cerulean_blue">#114FC6</color>
-    <color name="sea_green">#038C5E</color>
-    <color name="mantis">#7FC24F</color>
-    <color name="pure_black">#000000</color>
+    <color name="navajo_white">#FFF9DDAB</color>
+    <color name="chrome_yellow">#FFF9A706</color>
+    <color name="orange_blaze">#FFFF6704</color>
+    <color name="candy_apple">#FFE7062E</color>
+    <color name="purple_pink">#FFA2217E</color>
+    <color name="blue_violet">#FF511296</color>
+    <color name="midnight_blue">#FF020759</color>
+    <color name="cerulean_blue">#FF114FC6</color>
+    <color name="sea_green">#FF038C5E</color>
+    <color name="mantis">#FF7FC24F</color>
+    <color name="pure_black">#FF000000</color>
 </resources>

@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 data class Label(
     @PrimaryKey(autoGenerate = true) val id: Long,
     var name: String,
-    var color: Int,
+    var colorHex: String,
     var dateCreated: LocalDateTime,
     var lastUpdate: LocalDateTime
 )

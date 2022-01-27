@@ -30,7 +30,7 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
     private val _viewState: MutableLiveData<EditLabelsViewState> = MutableLiveData()
     val viewState get() = _viewState
 
-    private var _labelColor: Int? = null
+    private var _labelColor: String? = null
     private var _labelName: String = ""
     private var _labelId: Long = 0
     private var _labelCreatedDate = LocalDateTime.now()
@@ -41,7 +41,7 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
                 val label = Label(
                     id = _labelId,
                     name = _labelName,
-                    color = _labelColor!!,
+                    colorHex = "#" + _labelColor!!,
                     dateCreated = _labelCreatedDate,
                     lastUpdate = LocalDateTime.now()
                 )
@@ -61,7 +61,7 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
 
     fun clearNewLabel() {
         _labelName = ""
-        _labelColor = 0
+        _labelColor = ""
         _newLabelClearedEvent.value = Event(true)
         _viewState.value = EditLabelsViewState.NewLabel
     }
@@ -70,12 +70,12 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
         _labelName = name
     }
 
-    fun checkedColorChanged(color: Int?) {
+    fun checkedColorChanged(color: String?) {
         _labelColor = color
     }
 
     fun labelSelectedForEdit(label: Label) {
-        _labelColor = label.color
+        _labelColor = label.colorHex
         _labelName = label.name
         _labelId = label.id
         _labelCreatedDate = label.dateCreated

@@ -1,4 +1,4 @@
-package xyz.katiedotson.dodo.ui.extensions
+package xyz.katiedotson.dodo.common.extensions
 
 import android.view.View
 
