@@ -86,10 +86,10 @@ object LabelColor {
         return LabelColorItem.values().toList()
     }
 
-    fun fromHex(colorHex: String): LabelColorItem? {
+    fun fromHex(colorHex: String): LabelColorItem {
         return getAllLabelColors().find {
             it.hex.equals(colorHex, true)
-        }
+        } ?: LabelColorItem.PureWhite
     }
 
 }

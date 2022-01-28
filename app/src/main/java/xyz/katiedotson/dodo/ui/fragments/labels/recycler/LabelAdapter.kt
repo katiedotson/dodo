@@ -1,76 +1,42 @@
 package xyz.katiedotson.dodo.ui.fragments.labels.recycler
 
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import xyz.katiedotson.dodo.R
 import xyz.katiedotson.dodo.data.dto.LabelColor
 import xyz.katiedotson.dodo.data.label.Label
-import xyz.katiedotson.dodo.databinding.ViewLabelChipListItemBinding
+import xyz.katiedotson.dodo.ui.views.ColorLabelChip
 
 class LabelAdapter(private val labelClickListener: LabelClickListener) :
-    ListAdapter<Label, RecyclerView.ViewHolder>(LabelDiffCallback()) {
+    ListAdapter<Label, LabelAdapter.LabelViewHolder>(LabelDiffCallback()) {
 
     interface LabelClickListener {
         fun onLabelChipClick(label: Label)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LabelViewHolder, position: Int) {
         val label = getItem(position)
-        (holder as LabelViewHolder).bind(label, listener = labelClickListener)
+        holder.bind(label, listener = labelClickListener)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return LabelViewHolder(
-            ViewLabelChipListItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LabelViewHolder {
+        return LabelViewHolder(ColorLabelChip(parent.context))
     }
 
-    class LabelViewHolder(private val binding: ViewLabelChipListItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class LabelViewHolder(private val colorLabelChip: ColorLabelChip) :
+        RecyclerView.ViewHolder(colorLabelChip) {
         fun bind(item: Label, listener: LabelClickListener) {
-
-            val labelColor = LabelColor.fromHex(item.colorHex)
-
-            binding.root.text = item.name
-
-            binding.root.chipBackgroundColor =
-                ColorStateList.valueOf(Color.parseColor(item.colorHex))
-
-            if (labelColor != null && !labelColor.useWhiteText) {
-                val grey = ContextCompat.getColor(
-                    binding.root.context,
-                    R.color.grey
-                )
-                binding.root.setTextColor(grey)
-                binding.root.chipIconTint = ColorStateList.valueOf(grey)
-            }
-
-            if (labelColor?.useBorder == true) {
-                binding.root.chipStrokeColor = ColorStateList.valueOf(
-                    ContextCompat.getColor(
-                        binding.root.context,
-                        R.color.grey
-                    )
-                )
-                binding.root.chipStrokeWidth = 1f
-            }
-
-            binding.root.setOnClickListener {
+            val labelColorItem = LabelColor.fromHex(item.colorHex)
+            colorLabelChip.setLabelBackgroundColor(labelColorItem)
+            colorLabelChip.setBorder(labelColorItem)
+            colorLabelChip.setText(item.name)
+            colorLabelChip.setTextColor(labelColorItem)
+            colorLabelChip.setOnClickListener {
                 listener.onLabelChipClick(item)
             }
         }
     }
-
 }
 
 private class LabelDiffCallback : DiffUtil.ItemCallback<Label>() {

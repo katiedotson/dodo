@@ -46,33 +46,24 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
         })
         binding.recycler.adapter = adapter
 
-        val layoutManager = GridLayoutManager(requireContext(), 10)
+        val layoutManager = GridLayoutManager(requireContext(), 30)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 val adapterList = adapter.currentList
                 return if (adapterList.size >= position) {
                     val labelName = adapterList[position].name
-                    when {
+                    return when {
                         labelName.length <= 5 -> {
-                            3
+                            labelName.length + 4
                         }
-                        labelName.length <= 10 -> {
-                            4
+                        labelName.length < 10 -> {
+                            labelName.length + 2
                         }
-                        labelName.length <= 15 -> {
-                            5
-                        }
-                        labelName.length <= 20 -> {
-                            6
-                        }
-                        labelName.length <= 25 -> {
-                            7
-                        }
-                        labelName.length <= 30 -> {
-                            8
+                        labelName.length < 25 -> {
+                            labelName.length
                         }
                         else -> {
-                            layoutManager.spanCount
+                            30
                         }
                     }
                 } else 1
