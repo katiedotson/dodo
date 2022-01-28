@@ -4,69 +4,72 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import xyz.katiedotson.dodo.R
 import xyz.katiedotson.dodo.data.dto.LabelColor
-import xyz.katiedotson.dodo.databinding.ViewLabelChipListItemBinding
 
 @SuppressLint("ViewConstructor")
 class ColorLabelChip(context: Context) : Chip(context) {
 
-    private val binding = ViewLabelChipListItemBinding.inflate(LayoutInflater.from(context))
+    constructor(context: Context, color: LabelColor.LabelColorItem, mode: Mode) : this(context) {
+        setLabelBackgroundColor(color)
+        setText(color.displayName)
+        setMode(mode)
+        setBorder(color)
+        setTextColor(color)
+    }
 
-    constructor(context: Context, color: LabelColor.LabelColorItem) : this(context) {
-        binding.root.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(color.hex))
-        binding.root.text = color.colorName
-        binding.root.isCheckable = true
-        if (color.useWhiteText) {
-            binding.root.setTextColor(ContextCompat.getColor(context, R.color.white))
-        }
-        if (color.useBorder) {
-            binding.root.chipStrokeColor =
-                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.grey))
-            binding.root.chipStrokeWidth = 1f
-        }
+    fun setMode(mode: Mode) {
+        this.isCheckable = mode == Mode.ColorChoice
+//        if (mode == Mode.Edit) {
+//            this.setChipIconResource(R.drawable.ic_baseline_edit_24)
+//            this.chipIconSize = 20f
+//            this.chipStartPadding = 8f
+//        }
     }
 
     fun setText(name: String) {
-        binding.root.text = name
+        this.text = name
     }
 
     fun setLabelBackgroundColor(item: LabelColor.LabelColorItem) {
-        binding.root.chipBackgroundColor =
-            ColorStateList.valueOf(Color.parseColor(item.hex))
+        this.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(item.hex))
     }
 
     fun setBorder(labelColor: LabelColor.LabelColorItem) {
         if (labelColor.useBorder) {
-            binding.root.chipStrokeColor = ColorStateList.valueOf(
+            this.chipStrokeColor = ColorStateList.valueOf(
                 ContextCompat.getColor(
-                    binding.root.context,
+                    this.context,
                     R.color.grey
                 )
             )
-            binding.root.chipStrokeWidth = 1f
+            this.chipStrokeWidth = 1f
         } else {
-            binding.root.chipStrokeColor = null
-            binding.root.chipStrokeWidth = 0f
+            this.chipStrokeColor = null
+            this.chipStrokeWidth = 0f
         }
     }
 
     fun setTextColor(labelColor: LabelColor.LabelColorItem) {
         if (!labelColor.useWhiteText) {
             val grey = ContextCompat.getColor(
-                binding.root.context,
+                this.context,
                 R.color.grey
             )
-            binding.root.setTextColor(grey)
-            binding.root.chipIconTint = ColorStateList.valueOf(grey)
+            this.setTextColor(grey)
+            this.chipIconTint = ColorStateList.valueOf(grey)
         } else if (labelColor.useWhiteText) {
-            val white = ContextCompat.getColor(binding.root.context, R.color.pure_white)
-            binding.root.setTextColor(white)
-            binding.root.chipIconTint = ColorStateList.valueOf(white)
+            val white = ContextCompat.getColor(this.context, R.color.pure_white)
+            this.setTextColor(white)
+            this.chipIconTint = ColorStateList.valueOf(white)
         }
+    }
+
+    enum class Mode {
+        Edit,
+        ColorChoice
     }
 
 }

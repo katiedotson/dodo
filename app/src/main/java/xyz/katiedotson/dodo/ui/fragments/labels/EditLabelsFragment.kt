@@ -33,7 +33,7 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
         binding.chipGroup.isSingleSelection = true
 
         viewModel.colors.forEach {
-            val chip = ColorLabelChip(requireContext(), it)
+            val chip = ColorLabelChip(requireContext(), it, ColorLabelChip.Mode.ColorChoice)
             binding.chipGroup.addView(chip)
         }
 
@@ -53,15 +53,18 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
                 return if (adapterList.size >= position) {
                     val labelName = adapterList[position].name
                     return when {
-                        labelName.length <= 5 -> {
-                            labelName.length + 4
+                        labelName.length == 1  -> {
+                            4
                         }
-                        labelName.length < 10 -> {
+                        labelName.length <= 5 -> {
                             labelName.length + 2
                         }
                         labelName.length < 25 -> {
                             labelName.length
                         }
+//                        labelName.length < 25 -> {
+//                            labelName.length
+//                        }
                         else -> {
                             30
                         }

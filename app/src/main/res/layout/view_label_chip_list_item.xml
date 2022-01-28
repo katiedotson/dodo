@@ -2,7 +2,6 @@
 <com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Widget.Dodo.Chip.Action"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textAppearance="@style/TextAppearance.Dodo.Body2"

@@ -35,6 +35,7 @@ class LabelAdapter(private val labelClickListener: LabelClickListener) :
             colorLabelChip.setOnClickListener {
                 listener.onLabelChipClick(item)
             }
+            colorLabelChip.setMode(ColorLabelChip.Mode.Edit)
         }
     }
 }
