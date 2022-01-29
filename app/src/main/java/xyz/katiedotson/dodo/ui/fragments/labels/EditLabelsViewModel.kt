@@ -1,13 +1,12 @@
 package xyz.katiedotson.dodo.ui.fragments.labels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import xyz.katiedotson.dodo.common.Event
-import xyz.katiedotson.dodo.data.dto.LabelColor
+import xyz.katiedotson.dodo.data.color.DodoColor
+import xyz.katiedotson.dodo.data.color.ColorRepository
+import xyz.katiedotson.dodo.data.dto.DodoError
 import xyz.katiedotson.dodo.data.label.Label
 import xyz.katiedotson.dodo.data.label.LabelRepository
 import xyz.katiedotson.dodo.ui.base.BaseViewModel
@@ -15,17 +14,23 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
-class EditLabelsViewModel @Inject constructor(private val labelRepository: LabelRepository) :
+class EditLabelsViewModel @Inject constructor(private val labelRepository: LabelRepository, private val colorRepository: ColorRepository) :
     BaseViewModel() {
 
     val labels: LiveData<List<Label>> = labelRepository.labelsFlow.asLiveData()
-    val colors = LabelColor.getAllLabelColors()
+    val colors: LiveData<List<DodoColor>> = colorRepository.colors.asLiveData()
+
+    val mediator: MediatorLiveData<AdapterState> = MediatorLiveData<AdapterState>().apply {
+        addSource(labels) {
+            value = AdapterState(colors.value, labels.value)
+        }
+        addSource(colors) {
+            value = AdapterState(colors.value, labels.value)
+        }
+    }
 
     private val _labelCreatedEvent: MutableLiveData<Event<LabelCreatedEvent>> = MutableLiveData()
     val labelCreatedEvent get() = _labelCreatedEvent
-
-    private val _newLabelClearedEvent: MutableLiveData<Event<Boolean>> = MutableLiveData()
-    val newLabelClearedEvent get() = _newLabelClearedEvent
 
     private val _viewState: MutableLiveData<EditLabelsViewState> = MutableLiveData()
     val viewState get() = _viewState
@@ -53,7 +58,7 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
             }.onSuccess {
                 _labelCreatedEvent.value = Event(LabelCreatedEvent.Success)
             }.onFailure {
-                _labelCreatedEvent.value = Event(LabelCreatedEvent.Failure)
+                _labelCreatedEvent.value = Event(LabelCreatedEvent.Failure(DodoError.DATABASE_ERROR))
             }
             _viewState.value = EditLabelsViewState.NewLabel
         }
@@ -61,8 +66,8 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
 
     fun clearNewLabel() {
         _labelName = ""
-        _labelColor = ""
-        _newLabelClearedEvent.value = Event(true)
+        _labelId = 0L
+        _labelCreatedDate = LocalDateTime.now()
         _viewState.value = EditLabelsViewState.NewLabel
     }
 
@@ -82,19 +87,17 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
         _viewState.value = EditLabelsViewState.EditLabel
     }
 
-    fun formCleared() {
-        _viewState.value = EditLabelsViewState.NewLabel
-    }
-
     sealed class LabelCreatedEvent {
         object Success : LabelCreatedEvent()
-        object Failure : LabelCreatedEvent()
+        data class Failure(val error: DodoError) : LabelCreatedEvent()
     }
 
     sealed class EditLabelsViewState {
         object NewLabel : EditLabelsViewState()
         object EditLabel : EditLabelsViewState()
     }
+
+    data class AdapterState(val colors: List<DodoColor>?, val labels: List<Label>?)
 
 
 }

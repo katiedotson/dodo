@@ -2,11 +2,13 @@ package xyz.katiedotson.dodo.ui.fragments.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import xyz.katiedotson.dodo.MainActivityViewModel
 import xyz.katiedotson.dodo.R
 import xyz.katiedotson.dodo.ui.base.BaseFragment
 import xyz.katiedotson.dodo.data.todo.Todo
@@ -23,8 +25,12 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    private val activityViewModel : MainActivityViewModel by activityViewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activityViewModel.initColors()
 
         _binding = FragmentHomeBinding.bind(view)
 
@@ -41,12 +47,12 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
             override fun onDeleteButtonClicked(todo: Todo) {
                 MaterialAlertDialogBuilder(requireContext())
                     .setCancelable(true)
-                    .setTitle("Delete this item?")
-                    .setMessage("Are you sure you want to delete this item?")
-                    .setNegativeButton("Cancel") { dialog, _ ->
+                    .setTitle(getString(R.string.home_delete_this_item))
+                    .setMessage(getString(R.string.home_delete_confirm))
+                    .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                         dialog.dismiss()
                     }
-                    .setPositiveButton("Yes, Delete") { _, _ ->
+                    .setPositiveButton(getString(R.string.home_delete_yes)) { _, _ ->
                         viewModel.deleteTodo(todo)
                     }
                     .show()
@@ -61,10 +67,10 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
         viewModel.deleteEvent.observe(viewLifecycleOwner) {
             when (it.getContentIfNotHandled()) {
                 is HomeViewModel.DeleteEvent.Success -> {
-                    Snackbar.make(binding.root, "a dodo was deleted", Snackbar.LENGTH_SHORT).show()
+                    showSuccess(binding.root, R.string.home_item_deleted)
                 }
                 is HomeViewModel.DeleteEvent.Failure -> {
-                    Snackbar.make(binding.root, "Something went wrong.", Snackbar.LENGTH_SHORT).show()
+                    showError(binding.root, (it.content as HomeViewModel.DeleteEvent.Failure).error)
                 }
                 else -> {
                     // no op

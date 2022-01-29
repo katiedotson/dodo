@@ -1,7 +1,7 @@
 package xyz.katiedotson.dodo.common
 
 
-class Event<out T>(private val content: T) {
+class Event<out T>(val content: T) {
     //Creates a flag to track if data has been observed
     private var hasBeenHandled = false
 

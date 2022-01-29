@@ -9,19 +9,19 @@ import xyz.katiedotson.dodo.common.extensions.toggleVisible
 import xyz.katiedotson.dodo.data.todo.Todo
 import xyz.katiedotson.dodo.databinding.ViewListItemTodoBinding
 
-class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<Todo, RecyclerView.ViewHolder>(TodoDiffCallback()) {
+class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<Todo, TodoAdapter.TodoViewHolder>(TodoDiffCallback()) {
 
     interface TodoClickListeners {
         fun onEditButtonClicked(todo: Todo)
         fun onDeleteButtonClicked(todo: Todo)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         val todo = getItem(position)
         (holder as TodoViewHolder).bind(todo, clickListener)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
         return TodoViewHolder(
             ViewListItemTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
@@ -43,11 +43,9 @@ class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<T
 }
 
 private class TodoDiffCallback : DiffUtil.ItemCallback<Todo>() {
-
     override fun areItemsTheSame(oldItem: Todo, newItem: Todo): Boolean {
         return oldItem.id == newItem.id
     }
-
     override fun areContentsTheSame(oldItem: Todo, newItem: Todo): Boolean {
         return oldItem == newItem
     }

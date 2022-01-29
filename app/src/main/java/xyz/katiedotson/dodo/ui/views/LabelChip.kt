@@ -1,18 +1,16 @@
 package xyz.katiedotson.dodo.ui.views
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import xyz.katiedotson.dodo.R
-import xyz.katiedotson.dodo.data.dto.LabelColor
+import xyz.katiedotson.dodo.data.color.DodoColor
 
-@SuppressLint("ViewConstructor")
-class ColorLabelChip(context: Context) : Chip(context) {
+class LabelChip(context: Context) : Chip(context) {
 
-    constructor(context: Context, color: LabelColor.LabelColorItem, mode: Mode) : this(context) {
+    constructor(context: Context, color: DodoColor, mode: Mode) : this(context) {
         setLabelBackgroundColor(color)
         setText(color.displayName)
         setMode(mode)
@@ -33,11 +31,11 @@ class ColorLabelChip(context: Context) : Chip(context) {
         this.text = name
     }
 
-    fun setLabelBackgroundColor(item: LabelColor.LabelColorItem) {
-        this.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(item.hex))
+    fun setLabelBackgroundColor(item: DodoColor?) {
+        this.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(item?.hex))
     }
 
-    fun setBorder(labelColor: LabelColor.LabelColorItem) {
+    fun setBorder(labelColor: DodoColor) {
         if (labelColor.useBorder) {
             this.chipStrokeColor = ColorStateList.valueOf(
                 ContextCompat.getColor(
@@ -52,7 +50,7 @@ class ColorLabelChip(context: Context) : Chip(context) {
         }
     }
 
-    fun setTextColor(labelColor: LabelColor.LabelColorItem) {
+    fun setTextColor(labelColor: DodoColor) {
         if (!labelColor.useWhiteText) {
             val grey = ContextCompat.getColor(
                 this.context,

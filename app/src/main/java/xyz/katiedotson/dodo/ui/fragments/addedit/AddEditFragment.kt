@@ -37,7 +37,7 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
         binding.editDueDateBtn.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder
                 .datePicker()
-                .setTitleText("Select a due date")
+                .setTitleText(getString(R.string.add_edit_select_due_date))
                 .setSelection(MaterialDatePicker.thisMonthInUtcMilliseconds())
                 .build()
 
@@ -76,14 +76,15 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
     }
 
     private fun initializeFields(binding: FragmentAddEditBinding, todo: Todo?) {
-        binding.displayDueDate.text = "Due " + todo?.formattedDueDate()
-        binding.titleField.setText(todo?.name)
         binding.removeDueDateBtn.toggleVisible(show = todo?.dueDateExists() == true)
-        if (todo?.dueDateExists() != true) {
-            binding.editDueDateBtn.text = "Add Due Date"
+        if (todo?.dueDateExists() == true) {
+            binding.displayDueDate.text = getString(R.string.add_edit_format_due_date, todo.formattedDueDate())
+            binding.editDueDateBtn.text = getString(R.string.add_edit_edit_due_date)
         } else {
-            binding.editDueDateBtn.text = "Edit Due Date"
+            binding.displayDueDate.text = getString(R.string.add_edit_no_due_date)
+            binding.editDueDateBtn.text = getString(R.string.add_edit_add_due_date)
         }
+        binding.titleField.setText(todo?.name)
     }
 
     companion object {

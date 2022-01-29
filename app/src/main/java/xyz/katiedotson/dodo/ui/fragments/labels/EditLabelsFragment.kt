@@ -6,24 +6,24 @@ import android.view.View
 import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.chip.Chip
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.katiedotson.dodo.R
 import xyz.katiedotson.dodo.data.label.Label
-import xyz.katiedotson.dodo.ui.base.BaseFragment
 import xyz.katiedotson.dodo.databinding.FragmentEditLabelsBinding
-import xyz.katiedotson.dodo.ui.fragments.labels.recycler.LabelAdapter
-import xyz.katiedotson.dodo.ui.views.ColorLabelChip
+import xyz.katiedotson.dodo.ui.base.BaseFragment
+import xyz.katiedotson.dodo.ui.fragments.labels.recycler.LabelChipAdapter
+import xyz.katiedotson.dodo.ui.views.LabelChip
 
 @AndroidEntryPoint
 class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
 
     private val viewModel: EditLabelsViewModel by viewModels()
+    private var adapter: LabelChipAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,78 +32,52 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
         binding.chipGroup.isSelectionRequired = true
         binding.chipGroup.isSingleSelection = true
 
-        viewModel.colors.forEach {
-            val chip = ColorLabelChip(requireContext(), it, ColorLabelChip.Mode.ColorChoice)
-            binding.chipGroup.addView(chip)
-        }
+        viewModel.mediator.observe(viewLifecycleOwner) { state ->
+           if (state.colors != null && state.labels != null) {
+                state.colors.forEach { dodoColor ->
+                    val chip = LabelChip(requireContext(), dodoColor, LabelChip.Mode.ColorChoice)
+                    binding.chipGroup.addView(chip)
+                }
+               adapter = LabelChipAdapter(object : LabelChipAdapter.LabelClickListener {
+                   override fun onLabelChipClick(label: Label) {
+                       viewModel.labelSelectedForEdit(label)
+                       showLabelSelected(label, binding)
+                       setSheetExpanded(binding, true)
+                   }
+               }, state.colors)
+               binding.recycler.adapter = adapter
+               binding.recycler.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = LabelAdapter(object : LabelAdapter.LabelClickListener {
-            override fun onLabelChipClick(label: Label) {
-                viewModel.labelSelectedForEdit(label)
-                showLabelSelected(label, binding)
-                setSheetExpanded(binding, true)
-            }
-        })
-        binding.recycler.adapter = adapter
+               adapter?.submitList(state.labels)
 
-        val layoutManager = GridLayoutManager(requireContext(), 30)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                val adapterList = adapter.currentList
-                return if (adapterList.size >= position) {
-                    val labelName = adapterList[position].name
-                    return when {
-                        labelName.length == 1  -> {
-                            4
-                        }
-                        labelName.length <= 5 -> {
-                            labelName.length + 2
-                        }
-                        labelName.length < 25 -> {
-                            labelName.length
-                        }
-//                        labelName.length < 25 -> {
-//                            labelName.length
-//                        }
-                        else -> {
-                            30
-                        }
-                    }
-                } else 1
             }
         }
-        binding.recycler.layoutManager = layoutManager
 
         with(viewModel) {
-            labels.observe(viewLifecycleOwner) {
-                adapter.submitList(it)
+            labels.observe(viewLifecycleOwner) { labels ->
+                adapter?.submitList(labels)
             }
             labelCreatedEvent.observe(viewLifecycleOwner) {
                 when (it.getContentIfNotHandled()) {
                     is EditLabelsViewModel.LabelCreatedEvent.Success -> {
-                        clearAddLabelForm(binding)
-                        Snackbar.make(binding.root, "Success!", Snackbar.LENGTH_SHORT).show()
+                        clearLabelForm(binding)
+                        showSuccess(binding.root)
                     }
                     is EditLabelsViewModel.LabelCreatedEvent.Failure -> {
-                        Snackbar.make(binding.root, "Something went wrong.", Snackbar.LENGTH_SHORT)
-                            .show()
+                        showError(binding.root, (it.content as EditLabelsViewModel.LabelCreatedEvent.Failure).error)
                     }
                     else -> {
                         // no op
                     }
                 }
             }
-            newLabelClearedEvent.observe(viewLifecycleOwner) {
-                viewModel.formCleared()
-                clearAddLabelForm(binding)
-            }
             viewState.observe(viewLifecycleOwner) {
                 when (it) {
                     is EditLabelsViewModel.EditLabelsViewState.NewLabel -> {
-                        binding.bottomSheetTitle.text = "Add a new label"
+                        binding.bottomSheetTitle.text = getString(R.string.edit_label_add_label_heading)
                     }
                     is EditLabelsViewModel.EditLabelsViewState.EditLabel -> {
-                        binding.bottomSheetTitle.text = "Edit label"
+                        binding.bottomSheetTitle.text = getString(R.string.edit_label_edit_label_heading)
                     }
                 }
             }
@@ -115,6 +89,8 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
             }
             clearBtn.setOnClickListener {
                 viewModel.clearNewLabel()
+                clearLabelForm(binding)
+                setSheetExpanded(binding, false)
             }
             nameField.addTextChangedListener {
                 viewModel.nameFieldChanged(it.toString())
@@ -144,7 +120,7 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
         } as Chip).isChecked = true
     }
 
-    private fun clearAddLabelForm(binding: FragmentEditLabelsBinding) {
+    private fun clearLabelForm(binding: FragmentEditLabelsBinding) {
         binding.nameField.setText("")
         binding.nameField.clearFocus()
         binding.chipGroup.clearCheck()

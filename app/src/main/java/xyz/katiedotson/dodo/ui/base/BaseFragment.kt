@@ -22,20 +22,24 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentL
         Snackbar.make(view, getErrorText(error), Snackbar.LENGTH_SHORT).show()
     }
 
+    open fun showSuccess(view: View, resourceId: Int) {
+        Snackbar.make(view, getString(resourceId), Snackbar.LENGTH_SHORT).show()
+    }
+
     open fun showSuccess(view: View) {
-        Snackbar.make(view, "Success!", Snackbar.LENGTH_LONG).show()
+        Snackbar.make(view, getString(R.string.success), Snackbar.LENGTH_LONG).show()
     }
 
     private fun getErrorText(error: DodoError): String {
         return when (error) {
             DodoError.DATABASE_ERROR -> {
-                "There was something wrong when we tried to receive data."
+                getString(R.string.error_database)
             }
             DodoError.NETWORK_ERROR -> {
-                "There was something wrong when we tried to connect to the network."
+                getString(R.string.error_network)
             }
             DodoError.VALIDATION_ERROR -> {
-                "Something wasn't entered correctly. Please check all of the fields are filled out correctly."
+                getString(R.string.error_validation)
             }
         }
     }

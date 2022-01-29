@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import xyz.katiedotson.dodo.common.Event
+import xyz.katiedotson.dodo.data.dto.DodoError
 import xyz.katiedotson.dodo.data.todo.Todo
 import xyz.katiedotson.dodo.data.todo.TodoRepository
 import javax.inject.Inject
@@ -27,7 +28,7 @@ class HomeViewModel @Inject constructor(private val todoRepository: TodoReposito
                 todoRepository.deleteTodo(todo)
             }.onFailure {
                 Timber.e(it)
-                _deleteEvent.value = Event(DeleteEvent.Failure)
+                _deleteEvent.value = Event(DeleteEvent.Failure(DodoError.DATABASE_ERROR))
             }.onSuccess {
                 _deleteEvent.value = Event(DeleteEvent.Success)
             }
@@ -36,7 +37,7 @@ class HomeViewModel @Inject constructor(private val todoRepository: TodoReposito
 
     sealed class DeleteEvent {
         object Success: DeleteEvent()
-        object Failure: DeleteEvent()
+        data class Failure(val error: DodoError): DeleteEvent()
     }
 
 }
