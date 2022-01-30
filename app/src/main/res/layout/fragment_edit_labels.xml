@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/large_padding"
-        app:behavior_peekHeight="200dp"
+        app:behavior_peekHeight="400dp"
         app:behavior_expandedOffset="100dp"
         app:behavior_hideable="false"
         app:behavior_fitToContents="false"
@@ -40,7 +40,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/standard_padding"
-                android:text="Add a new label" />
+                android:text="@string/edit_label_add_label_heading" />
+
+            <TextView
+                style="@style/TextAppearance.Dodo.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/standard_padding"
+                android:text="Title" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/nameLayout"
@@ -61,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/standard_padding"
-                android:text="Label color" />
+                android:text="Color" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroup"

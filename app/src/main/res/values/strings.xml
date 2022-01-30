@@ -3,6 +3,10 @@
 
     <string name="cancel">Cancel</string>
     <string name="success">Success!</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="clear">Clear</string>
 
     <string name="home_item_deleted">An item was deleted.</string>
     <string name="home_delete_this_item">Delete this item?</string>
@@ -17,10 +21,13 @@
     <string name="add_edit_select_due_date">Select a due date</string>
     <string name="add_edit_no_due_date">No due date</string>
     <string name="add_edit_format_due_date">Due %s</string>
+    <string name="add_edit_add_edit_item">Add/edit item</string>
+    <string name="add_edit_description_heading">Description</string>
+    <string name="add_edit_description_hint">Description</string>
+    <string name="add_edit_due_date_heading">Due date</string>
+    <string name="add_edit_label_heading">Label</string>
     
     <string name="error_database">There was something wrong when we tried to receive data.</string>
     <string name="error_network">There was something wrong when we tried to connect to the network.</string>
     <string name="error_validation">Something wasn\'t entered correctly. Please check all of the fields are filled out correctly.</string>
-    <string name="delete">Delete</string>
-    <string name="edit">Edit</string>
 </resources>
