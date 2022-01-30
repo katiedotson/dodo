@@ -23,7 +23,6 @@ import xyz.katiedotson.dodo.ui.views.LabelChip
 class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
 
     private val viewModel: EditLabelsViewModel by viewModels()
-    private var adapter: LabelChipAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,29 +31,26 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
         binding.chipGroup.isSelectionRequired = true
         binding.chipGroup.isSingleSelection = true
 
-        viewModel.mediator.observe(viewLifecycleOwner) { state ->
-            state.colors?.forEach { dodoColor ->
-                val chip = LabelChip(requireContext(), dodoColor, LabelChip.Mode.Choice)
-                binding.chipGroup.addView(chip)
+        val adapter = LabelChipAdapter(object : LabelChipAdapter.LabelClickListener {
+            override fun onLabelChipClick(label: LabelDto) {
+                viewModel.labelSelectedForEdit(label)
+                showLabelSelected(label, binding)
+                setSheetExpanded(binding, true)
             }
-            if (state.colors != null && state.labels != null) {
-                adapter = LabelChipAdapter(object : LabelChipAdapter.LabelClickListener {
-                    override fun onLabelChipClick(label: LabelDto) {
-                        viewModel.labelSelectedForEdit(label)
-                        showLabelSelected(label, binding)
-                        setSheetExpanded(binding, true)
-                    }
-                }, state.colors)
-                binding.recycler.adapter = adapter
-                binding.recycler.layoutManager = LinearLayoutManager(requireContext())
+        })
 
-                adapter?.submitList(state.labels)
-            }
-        }
+        binding.recycler.adapter = adapter
+        binding.recycler.layoutManager = LinearLayoutManager(requireContext())
 
         with(viewModel) {
+            colors.observe(viewLifecycleOwner) { colors ->
+                colors?.forEach { dodoColor ->
+                    val chip = LabelChip(requireContext(), dodoColor, LabelChip.Mode.Choice)
+                    binding.chipGroup.addView(chip)
+                }
+            }
             labels.observe(viewLifecycleOwner) { labels ->
-                adapter?.submitList(labels)
+                adapter.submitList(labels)
             }
             labelCreatedEvent.observe(viewLifecycleOwner) {
                 when (it.getContentIfNotHandled()) {

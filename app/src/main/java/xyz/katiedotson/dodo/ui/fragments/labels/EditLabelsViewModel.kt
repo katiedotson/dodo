@@ -20,15 +20,6 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
     val labels: LiveData<List<LabelDto>> = labelRepository.labelsFlow.asLiveData()
     val colors: LiveData<List<DodoColor>> = colorRepository.colors.asLiveData()
 
-    val mediator: MediatorLiveData<AdapterState> = MediatorLiveData<AdapterState>().apply {
-        addSource(labels) {
-            value = AdapterState(colors.value, labels.value)
-        }
-        addSource(colors) {
-            value = AdapterState(colors.value, labels.value)
-        }
-    }
-
     private val _labelCreatedEvent: MutableLiveData<Event<LabelCreatedEvent>> = MutableLiveData()
     val labelCreatedEvent get() = _labelCreatedEvent
 
@@ -97,8 +88,5 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
         object NewLabel : EditLabelsViewState()
         object EditLabel : EditLabelsViewState()
     }
-
-    data class AdapterState(val colors: List<DodoColor>?, val labels: List<LabelDto>?)
-
 
 }

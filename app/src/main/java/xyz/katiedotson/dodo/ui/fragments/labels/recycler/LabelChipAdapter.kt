@@ -4,11 +4,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import xyz.katiedotson.dodo.data.color.DodoColor
 import xyz.katiedotson.dodo.data.label.LabelDto
 import xyz.katiedotson.dodo.ui.views.LabelChip
 
-class LabelChipAdapter(private val labelClickListener: LabelClickListener, val colors: List<DodoColor>) :
+class LabelChipAdapter(private val labelClickListener: LabelClickListener) :
     ListAdapter<LabelDto, LabelChipAdapter.LabelChipViewHolder>(LabelDiffCallback()) {
 
     interface LabelClickListener {
@@ -21,17 +20,16 @@ class LabelChipAdapter(private val labelClickListener: LabelClickListener, val c
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LabelChipViewHolder {
-        return LabelChipViewHolder(LabelChip(parent.context), colors)
+        return LabelChipViewHolder(LabelChip(parent.context))
     }
 
-    class LabelChipViewHolder(private val chip: LabelChip, private val colors: List<DodoColor>) :
+    class LabelChipViewHolder(private val chip: LabelChip) :
         RecyclerView.ViewHolder(chip) {
         fun bind(item: LabelDto, listener: LabelClickListener) {
-            val color = colors.find { it.hex.equals(item.colorHex, true) }!!
-            chip.setLabelBackgroundColor(color.hex)
-            chip.setBorder(color.useBorder)
+            chip.setLabelBackgroundColor(item.colorHex)
+            chip.setBorder(item.useBorder == true)
             chip.setText(item.labelName)
-            chip.setTextColor(color.useWhiteText)
+            chip.setTextColor(item.useWhiteText == true)
             chip.setMode(LabelChip.Mode.Edit)
             chip.setOnClickListener {
                 listener.onLabelChipClick(item)

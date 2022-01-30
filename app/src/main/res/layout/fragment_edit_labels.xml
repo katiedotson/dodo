@@ -11,8 +11,8 @@
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
         android:layout_marginBottom="200dp"
+        android:clipToPadding="false"
         android:padding="@dimen/large_padding"
         tools:context="xyz.katiedotson.dodo.MainActivity"
         tools:listitem="@layout/view_label_chip_list_item" />
@@ -23,29 +23,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/large_padding"
-        app:behavior_peekHeight="400dp"
         app:behavior_expandedOffset="100dp"
-        app:behavior_hideable="false"
         app:behavior_fitToContents="false"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="200dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/bottomSheetTitle"
                 style="@style/TextAppearance.Dodo.Headline6.Bold"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/standard_padding"
                 android:text="@string/edit_label_add_label_heading" />
 
             <TextView
                 style="@style/TextAppearance.Dodo.Headline6"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/standard_padding"
                 android:text="Title" />
 
@@ -66,7 +66,7 @@
             <TextView
                 style="@style/TextAppearance.Dodo.Headline6"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/standard_padding"
                 android:text="Color" />
 
