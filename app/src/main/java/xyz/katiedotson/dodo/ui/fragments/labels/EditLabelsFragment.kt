@@ -13,7 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.katiedotson.dodo.R
-import xyz.katiedotson.dodo.data.label.Label
+import xyz.katiedotson.dodo.data.label.LabelDto
 import xyz.katiedotson.dodo.databinding.FragmentEditLabelsBinding
 import xyz.katiedotson.dodo.ui.base.BaseFragment
 import xyz.katiedotson.dodo.ui.fragments.labels.recycler.LabelChipAdapter
@@ -33,23 +33,22 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
         binding.chipGroup.isSingleSelection = true
 
         viewModel.mediator.observe(viewLifecycleOwner) { state ->
-           if (state.colors != null && state.labels != null) {
-                state.colors.forEach { dodoColor ->
-                    val chip = LabelChip(requireContext(), dodoColor, LabelChip.Mode.ColorChoice)
-                    binding.chipGroup.addView(chip)
-                }
-               adapter = LabelChipAdapter(object : LabelChipAdapter.LabelClickListener {
-                   override fun onLabelChipClick(label: Label) {
-                       viewModel.labelSelectedForEdit(label)
-                       showLabelSelected(label, binding)
-                       setSheetExpanded(binding, true)
-                   }
-               }, state.colors)
-               binding.recycler.adapter = adapter
-               binding.recycler.layoutManager = LinearLayoutManager(requireContext())
+            state.colors?.forEach { dodoColor ->
+                val chip = LabelChip(requireContext(), dodoColor, LabelChip.Mode.Choice)
+                binding.chipGroup.addView(chip)
+            }
+            if (state.colors != null && state.labels != null) {
+                adapter = LabelChipAdapter(object : LabelChipAdapter.LabelClickListener {
+                    override fun onLabelChipClick(label: LabelDto) {
+                        viewModel.labelSelectedForEdit(label)
+                        showLabelSelected(label, binding)
+                        setSheetExpanded(binding, true)
+                    }
+                }, state.colors)
+                binding.recycler.adapter = adapter
+                binding.recycler.layoutManager = LinearLayoutManager(requireContext())
 
-               adapter?.submitList(state.labels)
-
+                adapter?.submitList(state.labels)
             }
         }
 
@@ -113,8 +112,8 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
         return if (chip != null) Integer.toHexString(chip.chipBackgroundColor!!.defaultColor) else null
     }
 
-    private fun showLabelSelected(label: Label, binding: FragmentEditLabelsBinding) {
-        binding.nameField.setText(label.name)
+    private fun showLabelSelected(label: LabelDto, binding: FragmentEditLabelsBinding) {
+        binding.nameField.setText(label.labelName)
         (binding.chipGroup.children.find { view ->
             (view as Chip).chipBackgroundColor?.defaultColor == Color.parseColor(label.colorHex)
         } as Chip).isChecked = true

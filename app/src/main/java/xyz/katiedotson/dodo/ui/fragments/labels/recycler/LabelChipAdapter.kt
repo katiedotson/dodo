@@ -5,14 +5,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import xyz.katiedotson.dodo.data.color.DodoColor
-import xyz.katiedotson.dodo.data.label.Label
+import xyz.katiedotson.dodo.data.label.LabelDto
 import xyz.katiedotson.dodo.ui.views.LabelChip
 
 class LabelChipAdapter(private val labelClickListener: LabelClickListener, val colors: List<DodoColor>) :
-    ListAdapter<Label, LabelChipAdapter.LabelChipViewHolder>(LabelDiffCallback()) {
+    ListAdapter<LabelDto, LabelChipAdapter.LabelChipViewHolder>(LabelDiffCallback()) {
 
     interface LabelClickListener {
-        fun onLabelChipClick(label: Label)
+        fun onLabelChipClick(label: LabelDto)
     }
 
     override fun onBindViewHolder(holder: LabelChipViewHolder, position: Int) {
@@ -26,12 +26,12 @@ class LabelChipAdapter(private val labelClickListener: LabelClickListener, val c
 
     class LabelChipViewHolder(private val chip: LabelChip, private val colors: List<DodoColor>) :
         RecyclerView.ViewHolder(chip) {
-        fun bind(item: Label, listener: LabelClickListener) {
-            val color = colors.find { it.hex.equals(item.colorHex, true) }
-            chip.setLabelBackgroundColor(color!!)
-            chip.setBorder(color)
-            chip.setText(item.name)
-            chip.setTextColor(color)
+        fun bind(item: LabelDto, listener: LabelClickListener) {
+            val color = colors.find { it.hex.equals(item.colorHex, true) }!!
+            chip.setLabelBackgroundColor(color.hex)
+            chip.setBorder(color.useBorder)
+            chip.setText(item.labelName)
+            chip.setTextColor(color.useWhiteText)
             chip.setMode(LabelChip.Mode.Edit)
             chip.setOnClickListener {
                 listener.onLabelChipClick(item)
@@ -40,11 +40,12 @@ class LabelChipAdapter(private val labelClickListener: LabelClickListener, val c
     }
 }
 
-private class LabelDiffCallback : DiffUtil.ItemCallback<Label>() {
-    override fun areItemsTheSame(oldItem: Label, newItem: Label): Boolean {
-        return oldItem.id == newItem.id
+private class LabelDiffCallback : DiffUtil.ItemCallback<LabelDto>() {
+    override fun areItemsTheSame(oldItem: LabelDto, newItem: LabelDto): Boolean {
+        return oldItem.labelId == newItem.labelId
     }
-    override fun areContentsTheSame(oldItem: Label, newItem: Label): Boolean {
+
+    override fun areContentsTheSame(oldItem: LabelDto, newItem: LabelDto): Boolean {
         return oldItem == newItem
     }
 }

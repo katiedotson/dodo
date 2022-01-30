@@ -17,7 +17,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideDodoDatabase(@ApplicationContext app: Context): DodoDatabase =
-        Room.databaseBuilder(app, DodoDatabase::class.java, "dodo").build()
+        Room.databaseBuilder(app, DodoDatabase::class.java, "dodo").fallbackToDestructiveMigration().build()
 
     @Singleton
     @Provides

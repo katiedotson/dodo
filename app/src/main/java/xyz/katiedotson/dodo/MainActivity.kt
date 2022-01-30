@@ -1,18 +1,11 @@
 package xyz.katiedotson.dodo
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.navigation.NavigationView
+import androidx.navigation.ui.*
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.katiedotson.dodo.databinding.ActivityMainBinding
 import xyz.katiedotson.dodo.ui.fragments.home.HomeFragmentDirections
@@ -40,7 +33,7 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
         binding.navView.setupWithNavController(navController)
 
         binding.addNewFab.setOnClickListener {
-            navController.navigate(HomeFragmentDirections.actionHomeFragmentToAddEditFragment(0L))
+            navController.navigate(R.id.action_global_addEditFragment)
         }
 
         setupActionBarWithNavController(navController, appBarConfiguration)

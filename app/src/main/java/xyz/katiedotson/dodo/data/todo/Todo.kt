@@ -1,37 +1,49 @@
 package xyz.katiedotson.dodo.data.todo
 
+import androidx.room.DatabaseView
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 
 @Entity(tableName = "todos")
 data class Todo(
     @PrimaryKey(autoGenerate = true) val id: Long,
-    var name: String,
-    var dateCreated: LocalDateTime,
-    var lastUpdate: LocalDateTime,
-    var dateDue: LocalDate?
+    val name: String,
+    val dateCreated: LocalDateTime,
+    val lastUpdate: LocalDateTime,
+    val dateDue: LocalDateTime?,
+    val labelColor: String?
 ) {
     override fun toString() = name
 
-    @Ignore
-    private val dateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+    @DatabaseView(
+        "SELECT " +
+                "todo.id as todoId, " +
+                "todo.name as todoName, " +
+                "todo.dateCreated, " +
+                "todo.lastUpdate, " +
+                "todo.dateDue, " +
+                "label.name as labelName, " +
+                "label.colorHex, " +
+                "color.useBorder, " +
+                "color.useWhiteText " +
+                "FROM todos as todo  " +
+                "LEFT OUTER JOIN labels as label ON upper(todo.labelColor) = upper(label.colorHex) " +
+                "LEFT OUTER JOIN colors as color ON upper(color.hex) = upper(label.colorHex) "
+    )
+    data class WithLabel(
+        val todoId: Long,
+        val todoName: String,
+        val dateCreated: LocalDateTime,
+        val lastUpdate: LocalDateTime,
+        val dateDue: LocalDateTime?,
+        val labelId: Long?,
+        val labelName: String?,
+        val colorHex: String?,
+        val useWhiteText: Boolean?,
+        val useBorder: Boolean?
+    )
 
-    @Ignore
-    fun formattedDueDate(): String = if (dateDue != null) dateTimeFormatter.format(dateDue) else "No Due Date"
-
-    @Ignore
-    fun formattedLastUpdate(): String = dateTimeFormatter.format(lastUpdate)
-
-    @Ignore
-    fun formattedDateCreated(): String = dateTimeFormatter.format(dateCreated)
-
-    @Ignore
-    fun dueDateExists() = dateDue != null
 
 }

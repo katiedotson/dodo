@@ -7,6 +7,10 @@ class ColorRepository @Inject constructor(private val colorDao: ColorDao) {
 
     val colors: Flow<List<DodoColor>> = colorDao.getColorsFlow()
 
+    suspend fun deleteAll() {
+        colorDao.deleteAll()
+    }
+
     suspend fun insertColors(colors: List<DodoColor>) {
         colorDao.insertAll(colors)
     }

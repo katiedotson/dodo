@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface LabelDao {
 
-    @Query("SELECT * from labels ORDER BY id")
-    fun getLabelsFlow(): Flow<List<Label>>
+    @Query("SELECT * from WithColor ORDER BY labelId")
+    fun getLabelsFlow(): Flow<List<Label.WithColor>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(todo: List<Label>)
 
-    @Query("SELECT * FROM labels WHERE id = :id")
-    fun readSingleLabel(id: Long): Flow<Label>
+    @Query("SELECT * FROM WithColor WHERE labelId = :id")
+    fun readSingleLabel(id: Long): Flow<Label.WithColor>
 
     @Update
     suspend fun updateLabel(label: Label)

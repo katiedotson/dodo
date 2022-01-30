@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import xyz.katiedotson.dodo.data.color.DodoColor
 import xyz.katiedotson.dodo.data.color.ColorRepository
+import xyz.katiedotson.dodo.data.color.DodoColor
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,6 +30,7 @@ class MainActivityViewModel @Inject constructor(private val colorRepository: Col
 
         viewModelScope.launch {
             kotlin.runCatching {
+                colorRepository.deleteAll()
                 colorRepository.insertColors(colors)
             }.onFailure {
                 Timber.e(it)

@@ -15,4 +15,7 @@ interface ColorDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(colors: List<DodoColor>)
 
+    @Query("DELETE FROM colors")
+    suspend fun deleteAll()
+
 }

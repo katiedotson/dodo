@@ -4,10 +4,10 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import xyz.katiedotson.dodo.common.Event
-import xyz.katiedotson.dodo.data.color.DodoColor
 import xyz.katiedotson.dodo.data.color.ColorRepository
+import xyz.katiedotson.dodo.data.color.DodoColor
 import xyz.katiedotson.dodo.data.dto.DodoError
-import xyz.katiedotson.dodo.data.label.Label
+import xyz.katiedotson.dodo.data.label.LabelDto
 import xyz.katiedotson.dodo.data.label.LabelRepository
 import xyz.katiedotson.dodo.ui.base.BaseViewModel
 import java.time.LocalDateTime
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class EditLabelsViewModel @Inject constructor(private val labelRepository: LabelRepository, private val colorRepository: ColorRepository) :
     BaseViewModel() {
 
-    val labels: LiveData<List<Label>> = labelRepository.labelsFlow.asLiveData()
+    val labels: LiveData<List<LabelDto>> = labelRepository.labelsFlow.asLiveData()
     val colors: LiveData<List<DodoColor>> = colorRepository.colors.asLiveData()
 
     val mediator: MediatorLiveData<AdapterState> = MediatorLiveData<AdapterState>().apply {
@@ -35,19 +35,20 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
     private val _viewState: MutableLiveData<EditLabelsViewState> = MutableLiveData()
     val viewState get() = _viewState
 
-    private var _labelColor: String? = null
-    private var _labelName: String = ""
-    private var _labelId: Long = 0
-    private var _labelCreatedDate = LocalDateTime.now()
+    private var labelColor: String? = null
+    private var labelName: String = ""
+    private var labelId: Long = 0
+    private var labelCreatedDate = LocalDateTime.now()
 
     fun saveNewLabel() {
         viewModelScope.launch {
             kotlin.runCatching {
-                val label = Label(
-                    id = _labelId,
-                    name = _labelName,
-                    colorHex = "#" + _labelColor!!,
-                    dateCreated = _labelCreatedDate,
+                val label = LabelDto(
+                    labelId = labelId,
+                    labelName = labelName,
+                    colorHex = "#" + labelColor!!,
+                    useWhiteText = null, useBorder = null,
+                    dateCreated = labelCreatedDate,
                     lastUpdate = LocalDateTime.now()
                 )
                 if (_viewState.value is EditLabelsViewState.EditLabel) {
@@ -65,25 +66,25 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
     }
 
     fun clearNewLabel() {
-        _labelName = ""
-        _labelId = 0L
-        _labelCreatedDate = LocalDateTime.now()
+        labelName = ""
+        labelId = 0L
+        labelCreatedDate = LocalDateTime.now()
         _viewState.value = EditLabelsViewState.NewLabel
     }
 
     fun nameFieldChanged(name: String) {
-        _labelName = name
+        labelName = name
     }
 
     fun checkedColorChanged(color: String?) {
-        _labelColor = color
+        labelColor = color
     }
 
-    fun labelSelectedForEdit(label: Label) {
-        _labelColor = label.colorHex
-        _labelName = label.name
-        _labelId = label.id
-        _labelCreatedDate = label.dateCreated
+    fun labelSelectedForEdit(label: LabelDto) {
+        labelColor = label.colorHex
+        labelName = label.labelName
+        labelId = label.labelId
+        labelCreatedDate = label.dateCreated
         _viewState.value = EditLabelsViewState.EditLabel
     }
 
@@ -97,7 +98,7 @@ class EditLabelsViewModel @Inject constructor(private val labelRepository: Label
         object EditLabel : EditLabelsViewState()
     }
 
-    data class AdapterState(val colors: List<DodoColor>?, val labels: List<Label>?)
+    data class AdapterState(val colors: List<DodoColor>?, val labels: List<LabelDto>?)
 
 
 }

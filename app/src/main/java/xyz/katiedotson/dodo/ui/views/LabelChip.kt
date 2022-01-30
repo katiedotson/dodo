@@ -7,36 +7,40 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import xyz.katiedotson.dodo.R
 import xyz.katiedotson.dodo.data.color.DodoColor
+import xyz.katiedotson.dodo.data.label.LabelDto
 
 class LabelChip(context: Context) : Chip(context) {
 
+    constructor(context: Context, label: LabelDto): this(context) {
+        setLabelBackgroundColor(label.colorHex)
+        setText(label.labelName)
+        setMode(LabelChip.Mode.Choice)
+        setBorder(label.useBorder == true)
+        setTextColor(label.useWhiteText == true)
+    }
+
     constructor(context: Context, color: DodoColor, mode: Mode) : this(context) {
-        setLabelBackgroundColor(color)
+        setLabelBackgroundColor(color.hex)
         setText(color.displayName)
         setMode(mode)
-        setBorder(color)
-        setTextColor(color)
+        setBorder(color.useBorder)
+        setTextColor(color.useWhiteText)
     }
 
     fun setMode(mode: Mode) {
-        this.isCheckable = mode == Mode.ColorChoice
-//        if (mode == Mode.Edit) {
-//            this.setChipIconResource(R.drawable.ic_baseline_edit_24)
-//            this.chipIconSize = 20f
-//            this.chipStartPadding = 8f
-//        }
+        this.isCheckable = mode == Mode.Choice
     }
 
     fun setText(name: String) {
         this.text = name
     }
 
-    fun setLabelBackgroundColor(item: DodoColor?) {
-        this.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(item?.hex))
+    fun setLabelBackgroundColor(colorString: String?) {
+        this.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(colorString))
     }
 
-    fun setBorder(labelColor: DodoColor) {
-        if (labelColor.useBorder) {
+    fun setBorder(useBorder: Boolean) {
+        if (useBorder) {
             this.chipStrokeColor = ColorStateList.valueOf(
                 ContextCompat.getColor(
                     this.context,
@@ -50,15 +54,15 @@ class LabelChip(context: Context) : Chip(context) {
         }
     }
 
-    fun setTextColor(labelColor: DodoColor) {
-        if (!labelColor.useWhiteText) {
+    fun setTextColor(useWhiteText: Boolean) {
+        if (!useWhiteText) {
             val grey = ContextCompat.getColor(
                 this.context,
                 R.color.grey
             )
             this.setTextColor(grey)
             this.chipIconTint = ColorStateList.valueOf(grey)
-        } else if (labelColor.useWhiteText) {
+        } else {
             val white = ContextCompat.getColor(this.context, R.color.pure_white)
             this.setTextColor(white)
             this.chipIconTint = ColorStateList.valueOf(white)
@@ -67,7 +71,7 @@ class LabelChip(context: Context) : Chip(context) {
 
     enum class Mode {
         Edit,
-        ColorChoice
+        Choice
     }
 
 }

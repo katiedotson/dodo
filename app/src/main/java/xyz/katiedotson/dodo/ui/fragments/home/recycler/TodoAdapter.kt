@@ -6,14 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import xyz.katiedotson.dodo.common.extensions.toggleVisible
-import xyz.katiedotson.dodo.data.todo.Todo
+import xyz.katiedotson.dodo.data.todo.TodoDto
 import xyz.katiedotson.dodo.databinding.ViewListItemTodoBinding
+import xyz.katiedotson.dodo.ui.views.LabelChip
 
-class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<Todo, TodoAdapter.TodoViewHolder>(TodoDiffCallback()) {
+class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<TodoDto, TodoAdapter.TodoViewHolder>(TodoDiffCallback()) {
 
     interface TodoClickListeners {
-        fun onEditButtonClicked(todo: Todo)
-        fun onDeleteButtonClicked(todo: Todo)
+        fun onEditButtonClicked(todo: TodoDto)
+        fun onDeleteButtonClicked(todo: TodoDto)
     }
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
@@ -28,7 +29,7 @@ class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<T
     }
 
     class TodoViewHolder(private val binding: ViewListItemTodoBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Todo, clickListener: TodoClickListeners) {
+        fun bind(item: TodoDto, clickListener: TodoClickListeners) {
             binding.date.text = if (item.dueDateExists()) "Due " + item.formattedDueDate() else null
             binding.date.toggleVisible(item.dueDateExists())
             binding.title.text = item.name
@@ -38,15 +39,20 @@ class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<T
             binding.deleteBtn.setOnClickListener {
                 clickListener.onDeleteButtonClicked(item)
             }
+            if (item.labelDto != null) {
+                val labelChip = LabelChip(binding.root.context, item.labelDto)
+                binding.labels.addView(labelChip)
+            }
         }
     }
 }
 
-private class TodoDiffCallback : DiffUtil.ItemCallback<Todo>() {
-    override fun areItemsTheSame(oldItem: Todo, newItem: Todo): Boolean {
+private class TodoDiffCallback : DiffUtil.ItemCallback<TodoDto>() {
+    override fun areItemsTheSame(oldItem: TodoDto, newItem: TodoDto): Boolean {
         return oldItem.id == newItem.id
     }
-    override fun areContentsTheSame(oldItem: Todo, newItem: Todo): Boolean {
+
+    override fun areContentsTheSame(oldItem: TodoDto, newItem: TodoDto): Boolean {
         return oldItem == newItem
     }
 }
