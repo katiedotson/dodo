@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val todoRepository: TodoRepository) : ViewModel() {
 
-    val todos: LiveData<List<TodoDto>> = todoRepository.todosFlow.asLiveData()
+    val todos = todoRepository.todosFlow
 
     private val _deleteEvent: MutableLiveData<Event<DeleteEvent>> = MutableLiveData()
     val deleteEvent: LiveData<Event<DeleteEvent>> get() = _deleteEvent
@@ -32,8 +32,8 @@ class HomeViewModel @Inject constructor(private val todoRepository: TodoReposito
     }
 
     sealed class DeleteEvent {
-        object Success: DeleteEvent()
-        data class Failure(val error: DodoError): DeleteEvent()
+        object Success : DeleteEvent()
+        data class Failure(val error: DodoError) : DeleteEvent()
     }
 
 }

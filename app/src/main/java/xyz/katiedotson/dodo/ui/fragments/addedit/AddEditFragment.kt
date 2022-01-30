@@ -35,7 +35,7 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
 
         viewModel.labels.observe(viewLifecycleOwner) { labels ->
             labels.forEach { label ->
-                val chip = LabelChip(requireContext(), label)
+                val chip = LabelChip(requireContext(), label, LabelChip.Mode.Choice)
                 binding.labels.addView(chip)
             }
         }

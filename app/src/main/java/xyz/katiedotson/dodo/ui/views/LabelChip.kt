@@ -11,10 +11,10 @@ import xyz.katiedotson.dodo.data.label.LabelDto
 
 class LabelChip(context: Context) : Chip(context) {
 
-    constructor(context: Context, label: LabelDto): this(context) {
+    constructor(context: Context, label: LabelDto, mode: Mode): this(context) {
         setLabelBackgroundColor(label.colorHex)
         setText(label.labelName)
-        setMode(LabelChip.Mode.Choice)
+        setMode(mode)
         setBorder(label.useBorder == true)
         setTextColor(label.useWhiteText == true)
     }
@@ -29,6 +29,7 @@ class LabelChip(context: Context) : Chip(context) {
 
     fun setMode(mode: Mode) {
         this.isCheckable = mode == Mode.Choice
+        this.isClickable = mode !== Mode.Display
     }
 
     fun setText(name: String) {
@@ -71,7 +72,8 @@ class LabelChip(context: Context) : Chip(context) {
 
     enum class Mode {
         Edit,
-        Choice
+        Choice,
+        Display
     }
 
 }

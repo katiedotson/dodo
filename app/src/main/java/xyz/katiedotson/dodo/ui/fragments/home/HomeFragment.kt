@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import xyz.katiedotson.dodo.MainActivityViewModel
 import xyz.katiedotson.dodo.R
 import xyz.katiedotson.dodo.data.todo.TodoDto
@@ -24,7 +28,7 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val activityViewModel : MainActivityViewModel by activityViewModels()
+    private val activityViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,9 +63,14 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
         })
         binding.recycler.adapter = adapter
 
-        viewModel.todos.observe(viewLifecycleOwner) { todos ->
-            adapter.submitList(todos)
+        lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.todos.collect {
+                    adapter.submitList(it)
+                }
+            }
         }
+
         viewModel.deleteEvent.observe(viewLifecycleOwner) {
             when (it.getContentIfNotHandled()) {
                 is HomeViewModel.DeleteEvent.Success -> {

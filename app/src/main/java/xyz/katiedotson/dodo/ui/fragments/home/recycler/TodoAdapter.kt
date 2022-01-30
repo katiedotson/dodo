@@ -19,7 +19,7 @@ class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<T
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         val todo = getItem(position)
-        (holder as TodoViewHolder).bind(todo, clickListener)
+        holder.bind(todo, clickListener)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
@@ -40,7 +40,7 @@ class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<T
                 clickListener.onDeleteButtonClicked(item)
             }
             if (item.labelDto != null) {
-                val labelChip = LabelChip(binding.root.context, item.labelDto)
+                val labelChip = LabelChip(binding.labels.context, item.labelDto, LabelChip.Mode.Display)
                 binding.labels.addView(labelChip)
             }
         }

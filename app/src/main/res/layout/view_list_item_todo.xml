@@ -40,11 +40,13 @@
             app:layout_constraintTop_toBottomOf="@id/titleAndDelete"
             tools:text="12/26/2021" />
 
-        <com.google.android.material.chip.ChipGroup
+        <LinearLayout
             android:id="@+id/labels"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/standard_padding"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/date" />
 
         <com.google.android.material.button.MaterialButton
