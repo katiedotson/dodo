@@ -13,17 +13,18 @@
 
         <TextView
             style="@style/TextAppearance.Dodo.Headline6.Bold"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/standard_padding"
-            android:layout_marginBottom="@dimen/standard_padding"
+            android:layout_marginTop="@dimen/large_padding"
             android:text="@string/add_edit_add_edit_item" />
 
         <TextView
             style="@style/TextAppearance.Dodo.Headline6"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/standard_padding"
+            android:layout_marginTop="@dimen/large_padding"
             android:layout_marginBottom="@dimen/standard_padding"
             android:text="@string/add_edit_description_heading" />
 
@@ -41,19 +42,21 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <include
-            layout="@layout/view_horizontal_divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="@dimen/standard_padding" />
-
         <TextView
             style="@style/TextAppearance.Dodo.Headline6"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/standard_padding"
+            android:layout_marginTop="@dimen/large_padding"
+            android:text="@string/add_edit_due_date_heading" />
+
+        <TextView
+            style="@style/TextAppearance.Dodo.Caption"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/standard_padding"
             android:layout_marginBottom="@dimen/standard_padding"
-            android:text="@string/add_edit_due_date_heading" />
+            android:text="@string/add_edit_due_date_caption" />
 
         <TextView
             android:id="@+id/displayDueDate"
@@ -61,7 +64,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/standard_padding"
-            android:layout_marginVertical="@dimen/standard_padding"
             tools:text="12/20/2021" />
 
         <LinearLayout
@@ -87,25 +89,27 @@
                 android:text="@string/clear" />
         </LinearLayout>
 
-        <include
-            layout="@layout/view_horizontal_divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="@dimen/standard_padding" />
-
         <TextView
             style="@style/TextAppearance.Dodo.Headline6"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/standard_padding"
-            android:layout_marginBottom="@dimen/standard_padding"
+            android:layout_marginTop="@dimen/large_padding"
             android:text="@string/add_edit_label_heading" />
+
+        <TextView
+            style="@style/TextAppearance.Dodo.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/standard_padding"
+            android:text="@string/add_edit_label_caption" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/labels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/standard_padding" />
+            android:layout_marginHorizontal="@dimen/standard_padding"
+            android:layout_marginTop="@dimen/standard_padding" />
 
         <include
             layout="@layout/view_horizontal_divider"

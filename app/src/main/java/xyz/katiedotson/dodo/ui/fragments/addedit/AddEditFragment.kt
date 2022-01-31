@@ -12,6 +12,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.katiedotson.dodo.R
 import xyz.katiedotson.dodo.common.extensions.toggleVisible
+import xyz.katiedotson.dodo.data.dto.DodoError
 import xyz.katiedotson.dodo.data.todo.TodoDto
 import xyz.katiedotson.dodo.databinding.FragmentAddEditBinding
 import xyz.katiedotson.dodo.databinding.FragmentEditLabelsBinding
@@ -33,65 +34,85 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
         binding.labels.isSelectionRequired = true
         binding.labels.isSingleSelection = true
 
-        viewModel.labels.observe(viewLifecycleOwner) { labels ->
-            labels.forEach { label ->
-                val chip = LabelChip(requireContext(), label, LabelChip.Mode.Choice)
-                binding.labels.addView(chip)
+        with(binding) {
+            labels.setOnCheckedChangeListener { _, checkedId ->
+                val color = findSelectedChipColor(checkedId, binding)
+                viewModel.checkedColorChanged(color)
+            }
+
+            titleField.addTextChangedListener {
+                viewModel.titleChanged(it.toString())
+            }
+
+            submitBtn.setOnClickListener {
+                viewModel.submit()
+            }
+
+            editDueDateBtn.setOnClickListener {
+                val datePicker = MaterialDatePicker.Builder
+                    .datePicker()
+                    .setTitleText(getString(R.string.add_edit_select_due_date))
+                    .setSelection(MaterialDatePicker.thisMonthInUtcMilliseconds())
+                    .build()
+
+                datePicker.addOnPositiveButtonClickListener {
+                    viewModel.dueDateChanged(it)
+                }
+
+                datePicker.show(childFragmentManager, TAG)
+            }
+
+            removeDueDateBtn.setOnClickListener {
+                viewModel.dueDateChanged(newDueDate = null)
             }
         }
 
-        binding.labels.setOnCheckedChangeListener { _, checkedId ->
-            val color = findSelectedChipColor(checkedId, binding)
-            viewModel.checkedColorChanged(color)
-        }
-
-        binding.titleField.addTextChangedListener {
-            viewModel.titleChanged(it.toString())
-        }
-
-        binding.submitBtn.setOnClickListener {
-            viewModel.submit()
-        }
-
-        binding.editDueDateBtn.setOnClickListener {
-            val datePicker = MaterialDatePicker.Builder
-                .datePicker()
-                .setTitleText(getString(R.string.add_edit_select_due_date))
-                .setSelection(MaterialDatePicker.thisMonthInUtcMilliseconds())
-                .build()
-
-            datePicker.addOnPositiveButtonClickListener {
-                viewModel.dueDateChanged(it)
+        with(viewModel) {
+            labels.observe(viewLifecycleOwner) { labels ->
+                labels.forEach { label ->
+                    val chip = LabelChip(requireContext(), label, LabelChip.Mode.Choice)
+                    binding.labels.addView(chip)
+                }
             }
 
-            datePicker.show(childFragmentManager, TAG)
-        }
+            viewState.observe(viewLifecycleOwner) {
+                when (it) {
+                    is AddEditViewModel.AddEditViewState.InitialState -> {
+                        initializeFields(binding, it.todo)
+                    }
+                    is AddEditViewModel.AddEditViewState.EditedState -> {
+                        initializeFields(binding, it.todo)
+                    }
+                    is AddEditViewModel.AddEditViewState.ErrorState -> {
+                        showError(binding.root, DodoError.DATABASE_ERROR)
+                    }
+                    is AddEditViewModel.AddEditViewState.SuccessState -> {
+                        mainNavController.navigate(AddEditFragmentDirections.actionAddEditFragmentToHomeFragment(it.id))
+                    }
+                }
+            }
 
-        binding.removeDueDateBtn.setOnClickListener {
-            viewModel.dueDateChanged(newDueDate = null)
-        }
-
-        viewModel.viewState.observe(viewLifecycleOwner) {
-            when (it) {
-                is AddEditViewModel.AddEditViewState.InitialState -> {
-                    initializeFields(binding, it.todo)
-                }
-                is AddEditViewModel.AddEditViewState.EditedState -> {
-                    initializeFields(binding, it.todo)
-                }
-                is AddEditViewModel.AddEditViewState.ErrorState -> {
-                    // todo show errors on fields
-                    showError(binding.root, it.error)
-                }
-                is AddEditViewModel.AddEditViewState.ValidState -> {
-                    // todo clear errors
-                }
-                is AddEditViewModel.AddEditViewState.SuccessState -> {
-                    mainNavController.navigate(AddEditFragmentDirections.actionAddEditFragmentToHomeFragment(it.id))
+            validationState.observe(viewLifecycleOwner) {
+                if (it.passed) {
+                    clearFieldErrors(binding)
+                } else {
+                    showFieldErrors(binding, it)
                 }
             }
         }
 
+    }
+
+    private fun clearFieldErrors(binding: FragmentAddEditBinding) {
+        binding.titleLayout.error = null
+    }
+
+    private fun showFieldErrors(binding: FragmentAddEditBinding, validation: AddEditViewModel.Validation?) {
+        if (validation?.descriptionValidation != null) {
+            binding.titleLayout.error = getString(R.string.add_edit_error_description_required)
+        } else {
+            binding.titleLayout.error = null
+        }
     }
 
     private fun findSelectedChipColor(checkedId: Int, binding: FragmentAddEditBinding): String? {

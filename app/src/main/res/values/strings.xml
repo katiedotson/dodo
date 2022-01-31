@@ -32,6 +32,9 @@
     <string name="add_edit_description_hint">Description</string>
     <string name="add_edit_due_date_heading">Due date</string>
     <string name="add_edit_label_heading">Label</string>
+    <string name="add_edit_error_description_required">A description is required.</string>
+    <string name="add_edit_due_date_caption">Add an optional due date.</string>
+    <string name="add_edit_label_caption">Add an optional label.</string>
     
     <string name="error_database">There was something wrong when we tried to receive data.</string>
     <string name="error_network">There was something wrong when we tried to connect to the network.</string>

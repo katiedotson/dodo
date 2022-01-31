@@ -4,8 +4,11 @@ import javax.inject.Inject
 
 
 class FieldValidator @Inject constructor() {
-    fun validateLength(string: String, min: Int, max: Int): DodoFieldError? {
+    fun validateLength(string: String?, min: Int, max: Int): DodoFieldError? {
         return when {
+            string == null -> {
+                DodoFieldError.Empty
+            }
             string.isEmpty() -> {
                 DodoFieldError.Empty
             }
@@ -17,7 +20,18 @@ class FieldValidator @Inject constructor() {
             }
             else -> null
         }
+    }
 
+    fun validateNotEmpty(string: String?): DodoFieldError? {
+        return when {
+            string == null -> {
+                DodoFieldError.Empty
+            }
+            string.isEmpty() -> {
+                DodoFieldError.Empty
+            }
+            else -> null
+        }
     }
 
 }

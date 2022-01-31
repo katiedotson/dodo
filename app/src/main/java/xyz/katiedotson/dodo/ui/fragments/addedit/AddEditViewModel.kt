@@ -9,6 +9,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import xyz.katiedotson.dodo.common.DodoFieldError
+import xyz.katiedotson.dodo.common.FieldValidator
 import xyz.katiedotson.dodo.data.dto.DodoError
 import xyz.katiedotson.dodo.data.label.LabelRepository
 import xyz.katiedotson.dodo.data.todo.TodoDto
@@ -20,7 +22,11 @@ import java.time.ZoneId
 import javax.inject.Inject
 
 @HiltViewModel
-class AddEditViewModel @Inject constructor(private val repo: TodoRepository, private val labelsRepository: LabelRepository) : BaseViewModel() {
+class AddEditViewModel @Inject constructor(
+    private val repo: TodoRepository,
+    labelsRepository: LabelRepository,
+    private val fieldValidator: FieldValidator
+) : BaseViewModel() {
 
     private var isEdit = false
 
@@ -33,6 +39,9 @@ class AddEditViewModel @Inject constructor(private val repo: TodoRepository, pri
 
     private val _viewState: MutableLiveData<AddEditViewState> = MutableLiveData<AddEditViewState>()
     val viewState: LiveData<AddEditViewState> get() = _viewState
+
+    private val _validationState = MutableLiveData(Validation(true, null))
+    val validationState: LiveData<Validation> get() = _validationState
 
     val labels = labelsRepository.labelsFlow.asLiveData()
 
@@ -67,26 +76,53 @@ class AddEditViewModel @Inject constructor(private val repo: TodoRepository, pri
                     val todo = repo.readTodo(todoId).first()
                     setTodo(todo)
                     _viewState.value = AddEditViewState.InitialState(currentTodo())
-                } else {
-                    val todo = TodoDto(
-                        id = 0,
-                        name = "",
-                        dateDue = null,
-                        lastUpdate = LocalDateTime.now(),
-                        dateCreated = LocalDateTime.now(),
-                        labelColor = labelColor,
-                        labelName = null,
-                        useWhiteText = null,
-                        useBorder = null
-                    )
-                    setTodo(todo)
-                    _viewState.value = AddEditViewState.InitialState(currentTodo())
                 }
             }.onFailure {
                 Timber.e(it)
                 _viewState.value = AddEditViewState.ErrorState(DodoError.DATABASE_ERROR)
             }
         }
+    }
+
+    fun submit() {
+        val validation = validate()
+        if (validation.passed) {
+            viewModelScope.launch {
+                lastUpdate = LocalDateTime.now()
+                kotlin.runCatching {
+                    if (isEdit) {
+                        repo.updateTodo(currentTodo())
+                    } else {
+                        repo.createTodo(currentTodo())
+                    }
+                }.onSuccess {
+                    _viewState.value = AddEditViewState.SuccessState(currentTodo(), it)
+                }.onFailure {
+                    Timber.e(it)
+                    _viewState.value = AddEditViewState.ErrorState(DodoError.DATABASE_ERROR)
+                }
+            }
+        } else {
+            _validationState.value = validation
+        }
+    }
+
+    private fun validate(): Validation {
+        val descriptionError = fieldValidator.validateNotEmpty(name)
+        return Validation(passed = (descriptionError == null), descriptionError)
+    }
+
+    fun titleChanged(titleText: String) {
+        name = titleText
+        if (_viewState.value !is AddEditViewState.EditedState) {
+            _viewState.value = AddEditViewState.EditedState(currentTodo())
+        } else {
+            _validationState.value = validate()
+        }
+    }
+
+    fun checkedColorChanged(color: String?) {
+        labelColor = "#$color"
     }
 
     @SuppressLint("NewApi")
@@ -101,41 +137,13 @@ class AddEditViewModel @Inject constructor(private val repo: TodoRepository, pri
         }
     }
 
-    fun titleChanged(titleText: String) {
-        name = titleText
-        if (_viewState.value !is AddEditViewState.EditedState) {
-            _viewState.value = AddEditViewState.EditedState(currentTodo())
-        }
-    }
-
-    fun submit() {
-        viewModelScope.launch {
-            lastUpdate = LocalDateTime.now()
-            kotlin.runCatching {
-                if (isEdit) {
-                    repo.updateTodo(currentTodo())
-                } else {
-                    repo.createTodo(currentTodo())
-                }
-            }.onSuccess {
-                _viewState.value = AddEditViewState.SuccessState(currentTodo(), it)
-            }.onFailure {
-                Timber.e(it)
-                _viewState.value = AddEditViewState.ErrorState(DodoError.DATABASE_ERROR)
-            }
-        }
-    }
-
-    fun checkedColorChanged(color: String?) {
-        labelColor = "#$color"
-    }
-
     sealed class AddEditViewState {
         data class ErrorState(val error: DodoError) : AddEditViewState()
-        data class ValidState(val todo: TodoDto?) : AddEditViewState()
         data class InitialState(val todo: TodoDto?) : AddEditViewState()
         data class SuccessState(val todo: TodoDto, val id: Long) : AddEditViewState()
         data class EditedState(val todo: TodoDto?) : AddEditViewState()
     }
+
+    data class Validation(val passed: Boolean, val descriptionValidation: DodoFieldError?)
 
 }
