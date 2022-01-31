@@ -11,10 +11,12 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.katiedotson.dodo.R
 import xyz.katiedotson.dodo.common.DodoFieldError
 import xyz.katiedotson.dodo.common.extensions.toggleVisible
+import xyz.katiedotson.dodo.data.dto.DodoError
 import xyz.katiedotson.dodo.data.label.LabelDto
 import xyz.katiedotson.dodo.databinding.FragmentEditLabelsBinding
 import xyz.katiedotson.dodo.ui.base.BaseFragment
@@ -39,6 +41,21 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
                 showLabelSelected(label, binding)
                 setSheetExpanded(binding, true)
             }
+
+            override fun onLabelChipHold(label: LabelDto): Boolean {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setCancelable(true)
+                    .setTitle(getString(R.string.edit_label_delete_this_item))
+                    .setMessage(getString(R.string.edit_label_delete_confirm))
+                    .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton(getString(R.string.edit_label_delete_yes)) { _, _ ->
+                        viewModel.deleteLabel(label)
+                    }
+                    .show()
+                return true
+            }
         })
 
         binding.recycler.adapter = adapter
@@ -62,6 +79,19 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
                     }
                     is EditLabelsViewModel.LabelCreatedEvent.Failure -> {
                         showError(binding.root, (it.content as EditLabelsViewModel.LabelCreatedEvent.Failure).error)
+                    }
+                    else -> {
+                        // no op
+                    }
+                }
+            }
+            labelDeletedEvent.observe(viewLifecycleOwner) {
+                when (it.getContentIfNotHandled()) {
+                    is EditLabelsViewModel.LabelDeletedEvent.Success -> {
+                        showSuccess(binding.root)
+                    }
+                    is EditLabelsViewModel.LabelDeletedEvent.Failure -> {
+                        showError(binding.root, DodoError.DATABASE_ERROR)
                     }
                     else -> {
                         // no op

@@ -31,6 +31,9 @@ class EditLabelsViewModel @Inject constructor(
     private val _labelCreatedEvent: MutableLiveData<Event<LabelCreatedEvent>> = MutableLiveData()
     val labelCreatedEvent get() = _labelCreatedEvent
 
+    private val _labelDeletedEvent: MutableLiveData<Event<LabelDeletedEvent>> = MutableLiveData()
+    val labelDeletedEvent get() = _labelDeletedEvent
+
     private val _viewState: MutableLiveData<EditLabelsViewState> = MutableLiveData()
     val viewState get() = _viewState
 
@@ -72,21 +75,15 @@ class EditLabelsViewModel @Inject constructor(
         }
     }
 
-    private fun validate(fieldToValidate: Fields? = null): Validation {
-        val titleError = fieldValidator.validateLength(labelName, 0, 30)
-        val colorError = if (labelColor == null) DodoFieldError.Empty else null
-
-        return if (fieldToValidate != null) {
-            when (fieldToValidate) {
-                Fields.Color -> {
-                    _validationState.value!!.copy(colorError = colorError)
-                }
-                Fields.Title -> {
-                    _validationState.value!!.copy(titleError = titleError)
-                }
+    fun deleteLabel(label: LabelDto) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                labelRepository.deleteLabel(label)
+            }.onSuccess {
+                _labelDeletedEvent.value = Event(LabelDeletedEvent.Success)
+            }.onFailure {
+                _labelDeletedEvent.value = Event(LabelDeletedEvent.Failure)
             }
-        } else {
-            Validation(passed = titleError == null && colorError == null, titleError, colorError)
         }
     }
 
@@ -115,11 +112,34 @@ class EditLabelsViewModel @Inject constructor(
         _viewState.value = EditLabelsViewState.EditLabel
     }
 
+    private fun validate(fieldToValidate: Fields? = null): Validation {
+        val titleError = fieldValidator.validateLength(labelName, 0, 30)
+        val colorError = if (labelColor == null) DodoFieldError.Empty else null
+
+        return if (fieldToValidate != null) {
+            when (fieldToValidate) {
+                Fields.Color -> {
+                    _validationState.value!!.copy(colorError = colorError)
+                }
+                Fields.Title -> {
+                    _validationState.value!!.copy(titleError = titleError)
+                }
+            }
+        } else {
+            Validation(passed = titleError == null && colorError == null, titleError, colorError)
+        }
+    }
+
     data class Validation(val passed: Boolean, val titleError: DodoFieldError?, val colorError: DodoFieldError?)
 
     sealed class LabelCreatedEvent {
         object Success : LabelCreatedEvent()
         data class Failure(val error: DodoError) : LabelCreatedEvent()
+    }
+
+    sealed class LabelDeletedEvent {
+        object Success : LabelDeletedEvent()
+        object Failure : LabelDeletedEvent()
     }
 
     sealed class EditLabelsViewState {

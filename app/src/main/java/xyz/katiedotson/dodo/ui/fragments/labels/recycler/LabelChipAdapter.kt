@@ -12,6 +12,7 @@ class LabelChipAdapter(private val labelClickListener: LabelClickListener) :
 
     interface LabelClickListener {
         fun onLabelChipClick(label: LabelDto)
+        fun onLabelChipHold(label: LabelDto) : Boolean
     }
 
     override fun onBindViewHolder(holder: LabelChipViewHolder, position: Int) {
@@ -33,6 +34,9 @@ class LabelChipAdapter(private val labelClickListener: LabelClickListener) :
             chip.setMode(LabelChip.Mode.Edit)
             chip.setOnClickListener {
                 listener.onLabelChipClick(item)
+            }
+            chip.setOnLongClickListener {
+                listener.onLabelChipHold(item)
             }
         }
     }
