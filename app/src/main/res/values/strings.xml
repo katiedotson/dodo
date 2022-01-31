@@ -18,6 +18,9 @@
     <string name="edit_label_label_title_heading">Label title</string>
     <string name="edit_label_label_title_hint">Label title</string>
     <string name="edit_label_label_color_heading">Color</string>
+    <string name="edit_label_error_color_required">A color choice is required.</string>
+    <string name="edit_label_error_title_required">Label title is required.</string>
+    <string name="edit_label_error_title_too_long">Label title is limited to 30 characters.</string>
     
     <string name="add_edit_add_due_date">Add Due Date</string>
     <string name="add_edit_edit_due_date">Edit Due Date</string>

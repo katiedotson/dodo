@@ -34,6 +34,9 @@ class EditLabelsViewModel @Inject constructor(
     private val _viewState: MutableLiveData<EditLabelsViewState> = MutableLiveData()
     val viewState get() = _viewState
 
+    private val _validationState = MutableLiveData(Validation(true, null, null))
+    val validationState get() = _validationState
+
     private var labelColor: String? = null
     private var labelName: String = ""
     private var labelId: Long = 0
@@ -65,14 +68,26 @@ class EditLabelsViewModel @Inject constructor(
                 _viewState.value = EditLabelsViewState.NewLabel
             }
         } else {
-            _labelCreatedEvent.value = Event(LabelCreatedEvent.InvalidFields(validation))
+            _validationState.value = validation
         }
     }
 
-    private fun validate(): Validation {
-        val labelNameValidation = fieldValidator.validateLength(labelName, 0, 30)
+    private fun validate(fieldToValidate: Fields? = null): Validation {
+        val titleError = fieldValidator.validateLength(labelName, 0, 30)
         val colorError = if (labelColor == null) DodoFieldError.Empty else null
-        return Validation(passed = labelNameValidation == null && colorError == null, labelNameValidation, colorError)
+
+        return if (fieldToValidate != null) {
+            when (fieldToValidate) {
+                Fields.Color -> {
+                    _validationState.value!!.copy(colorError = colorError)
+                }
+                Fields.Title -> {
+                    _validationState.value!!.copy(titleError = titleError)
+                }
+            }
+        } else {
+            Validation(passed = titleError == null && colorError == null, titleError, colorError)
+        }
     }
 
     fun clearNewLabel() {
@@ -84,10 +99,12 @@ class EditLabelsViewModel @Inject constructor(
 
     fun nameFieldChanged(name: String) {
         labelName = name
+        _validationState.value = validate(Fields.Title)
     }
 
     fun checkedColorChanged(color: String?) {
         labelColor = color
+        _validationState.value = validate(Fields.Color)
     }
 
     fun labelSelectedForEdit(label: LabelDto) {
@@ -103,12 +120,15 @@ class EditLabelsViewModel @Inject constructor(
     sealed class LabelCreatedEvent {
         object Success : LabelCreatedEvent()
         data class Failure(val error: DodoError) : LabelCreatedEvent()
-        data class InvalidFields(val validation: Validation) : LabelCreatedEvent()
     }
 
     sealed class EditLabelsViewState {
         object NewLabel : EditLabelsViewState()
         object EditLabel : EditLabelsViewState()
+    }
+
+    private enum class Fields {
+        Color, Title
     }
 
 }

@@ -15,7 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import xyz.katiedotson.dodo.R
 import xyz.katiedotson.dodo.common.DodoFieldError
 import xyz.katiedotson.dodo.common.extensions.toggleVisible
-import xyz.katiedotson.dodo.data.dto.DodoError
 import xyz.katiedotson.dodo.data.label.LabelDto
 import xyz.katiedotson.dodo.databinding.FragmentEditLabelsBinding
 import xyz.katiedotson.dodo.ui.base.BaseFragment
@@ -64,10 +63,6 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
                     is EditLabelsViewModel.LabelCreatedEvent.Failure -> {
                         showError(binding.root, (it.content as EditLabelsViewModel.LabelCreatedEvent.Failure).error)
                     }
-                    is EditLabelsViewModel.LabelCreatedEvent.InvalidFields -> {
-                        showFieldErrors(binding, (it.content as EditLabelsViewModel.LabelCreatedEvent.InvalidFields).validation)
-                        showError(binding.bottomSheet, DodoError.VALIDATION_ERROR)
-                    }
                     else -> {
                         // no op
                     }
@@ -83,6 +78,13 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
                     }
                 }
             }
+            validationState.observe(viewLifecycleOwner) {
+                if (it.passed) {
+                    clearFieldErrors(binding)
+                } else {
+                    showFieldErrors(binding, it)
+                }
+            }
         }
 
         with(binding) {
@@ -92,6 +94,7 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
             clearBtn.setOnClickListener {
                 viewModel.clearNewLabel()
                 clearLabelForm(binding)
+                clearFieldErrors(binding)
                 setSheetExpanded(binding, false)
             }
             nameField.addTextChangedListener {
@@ -111,20 +114,35 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
     }
 
     private fun showFieldErrors(binding: FragmentEditLabelsBinding, validation: EditLabelsViewModel.Validation) {
+
+        // Color
         if (validation.colorError != null) {
             binding.colorError.toggleVisible(true)
-            binding.colorError.text = "A color choice is required."
+            binding.colorError.text = getString(R.string.edit_label_error_color_required)
+        } else {
+            binding.colorError.toggleVisible(false)
+            binding.colorError.text = null
         }
+
+        // Title
         if (validation.titleError != null) {
             when (validation.titleError) {
                 DodoFieldError.Empty, DodoFieldError.TooShort -> {
-                    binding.nameLayout.error = "Label title is required."
+                    binding.nameLayout.error = getString(R.string.edit_label_error_title_required)
                 }
                 DodoFieldError.TooLong -> {
-                    binding.nameLayout.error = "Label title is limited to 30 characters."
+                    binding.nameLayout.error = getString(R.string.edit_label_error_title_too_long)
                 }
             }
+        } else {
+            binding.nameLayout.error = null
         }
+    }
+
+    private fun clearFieldErrors(binding: FragmentEditLabelsBinding) {
+        binding.colorError.toggleVisible(false)
+        binding.colorError.text = null
+        binding.nameLayout.error = null
     }
 
     private fun findSelectedChipColor(checkedId: Int, binding: FragmentEditLabelsBinding): String? {
