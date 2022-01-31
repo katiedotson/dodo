@@ -15,6 +15,9 @@
     
     <string name="edit_label_add_label_heading">Add a new label</string>
     <string name="edit_label_edit_label_heading">Edit label</string>
+    <string name="edit_label_label_title_heading">Label title</string>
+    <string name="edit_label_label_title_hint">Label title</string>
+    <string name="edit_label_label_color_heading">Color</string>
     
     <string name="add_edit_add_due_date">Add Due Date</string>
     <string name="add_edit_edit_due_date">Edit Due Date</string>

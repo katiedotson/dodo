@@ -13,6 +13,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.katiedotson.dodo.R
+import xyz.katiedotson.dodo.common.DodoFieldError
+import xyz.katiedotson.dodo.common.extensions.toggleVisible
+import xyz.katiedotson.dodo.data.dto.DodoError
 import xyz.katiedotson.dodo.data.label.LabelDto
 import xyz.katiedotson.dodo.databinding.FragmentEditLabelsBinding
 import xyz.katiedotson.dodo.ui.base.BaseFragment
@@ -61,6 +64,10 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
                     is EditLabelsViewModel.LabelCreatedEvent.Failure -> {
                         showError(binding.root, (it.content as EditLabelsViewModel.LabelCreatedEvent.Failure).error)
                     }
+                    is EditLabelsViewModel.LabelCreatedEvent.InvalidFields -> {
+                        showFieldErrors(binding, (it.content as EditLabelsViewModel.LabelCreatedEvent.InvalidFields).validation)
+                        showError(binding.bottomSheet, DodoError.VALIDATION_ERROR)
+                    }
                     else -> {
                         // no op
                     }
@@ -101,6 +108,23 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
             }
         }
 
+    }
+
+    private fun showFieldErrors(binding: FragmentEditLabelsBinding, validation: EditLabelsViewModel.Validation) {
+        if (validation.colorError != null) {
+            binding.colorError.toggleVisible(true)
+            binding.colorError.text = "A color choice is required."
+        }
+        if (validation.titleError != null) {
+            when (validation.titleError) {
+                DodoFieldError.Empty, DodoFieldError.TooShort -> {
+                    binding.nameLayout.error = "Label title is required."
+                }
+                DodoFieldError.TooLong -> {
+                    binding.nameLayout.error = "Label title is limited to 30 characters."
+                }
+            }
+        }
     }
 
     private fun findSelectedChipColor(checkedId: Int, binding: FragmentEditLabelsBinding): String? {

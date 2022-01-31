@@ -47,14 +47,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/standard_padding"
-                android:text="Title" />
+                android:text="@string/edit_label_label_title_heading" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/nameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/large_padding"
-                android:hint="Label title">
+                android:hint="@string/edit_label_label_title_hint">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nameField"
@@ -68,7 +68,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/standard_padding"
-                android:text="Color" />
+                android:text="@string/edit_label_label_color_heading" />
+
+            <TextView
+                android:id="@+id/colorError"
+                style="@style/TextAppearance.Dodo.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/rust"
+                android:visibility="gone"
+                tools:text="Color choice is required." />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroup"
@@ -91,14 +100,14 @@
                     style="@style/Widget.Dodo.Button.TextButton.Red"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Clear" />
+                    android:text="@string/clear" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/saveBtn"
                     style="@style/Widget.Dodo.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Save"
+                    android:text="@string/save"
                     android:textAllCaps="true" />
             </LinearLayout>
 
