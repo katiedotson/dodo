@@ -37,7 +37,7 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
 
         _binding = FragmentHomeBinding.bind(view)
 
-        if (args.newTodoId != 0L) {
+        if (args.newTodoId != 0L && args.newTodoId != -1L) {
             showSuccess(binding.root)
         }
 

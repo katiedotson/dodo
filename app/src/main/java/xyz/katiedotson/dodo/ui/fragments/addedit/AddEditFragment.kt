@@ -78,10 +78,11 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
             viewState.observe(viewLifecycleOwner) {
                 when (it) {
                     is AddEditViewModel.AddEditViewState.InitialState -> {
-                        initializeFields(binding, it.todo)
+                        updateDateAndLabelFields(binding, it.todo)
+                        binding.titleField.setText(it.todo?.name)
                     }
                     is AddEditViewModel.AddEditViewState.EditedState -> {
-                        initializeFields(binding, it.todo)
+                        updateDateAndLabelFields(binding, it.todo)
                     }
                     is AddEditViewModel.AddEditViewState.ErrorState -> {
                         showError(binding.root, DodoError.DATABASE_ERROR)
@@ -120,7 +121,7 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
         return if (chip != null) Integer.toHexString(chip.chipBackgroundColor!!.defaultColor) else null
     }
 
-    private fun initializeFields(binding: FragmentAddEditBinding, todo: TodoDto?) {
+    private fun updateDateAndLabelFields(binding: FragmentAddEditBinding, todo: TodoDto?) {
         binding.removeDueDateBtn.toggleVisible(show = todo?.dueDateExists() == true)
         if (todo?.dueDateExists() == true) {
             binding.displayDueDate.text = getString(R.string.add_edit_format_due_date, todo.formattedDueDate())
@@ -129,7 +130,6 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
             binding.displayDueDate.text = getString(R.string.add_edit_no_due_date)
             binding.editDueDateBtn.text = getString(R.string.add_edit_add_due_date)
         }
-        binding.titleField.setText(todo?.name)
         if (todo?.labelColor != null) {
             (binding.labels.children.find { view ->
                 (view as Chip).chipBackgroundColor?.defaultColor == Color.parseColor(todo.labelColor)
