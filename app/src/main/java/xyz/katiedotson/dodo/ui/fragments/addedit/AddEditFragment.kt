@@ -15,7 +15,6 @@ import xyz.katiedotson.dodo.common.extensions.toggleVisible
 import xyz.katiedotson.dodo.data.dto.DodoError
 import xyz.katiedotson.dodo.data.todo.TodoDto
 import xyz.katiedotson.dodo.databinding.FragmentAddEditBinding
-import xyz.katiedotson.dodo.databinding.FragmentEditLabelsBinding
 import xyz.katiedotson.dodo.ui.base.BaseFragment
 import xyz.katiedotson.dodo.ui.views.LabelChip
 

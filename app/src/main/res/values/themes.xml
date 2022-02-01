@@ -20,7 +20,9 @@
         <item name="textInputStyle">@style/Widget.Dodo.TextInputLayout</item>
         <item name="bottomSheetStyle">@style/Widget.Dodo.BottomSheetStyle</item>
 
-        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="statusBarBackground">?attr/colorPrimary</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
 
     </style>
 
@@ -31,12 +33,12 @@
         <item name="subtitleTextAppearance">@style/TextAppearance.Dodo.Subtitle1</item>
     </style>
 
-<!--    Bottom sheet-->
+    <!--    Bottom sheet-->
     <style name="Widget.Dodo.BottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet">
         <item name="android:background">@drawable/shape_todo_list_item</item>
     </style>
 
-<!--    Chip -->
+    <!--    Chip -->
     <style name="Widget.Dodo.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipStrokeWidth">1dp</item>
         <item name="chipStrokeColor">@color/light_gray</item>
@@ -75,6 +77,7 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Dodo.SmallComponent</item>
         <item name="hintTextColor">@color/grey</item>
+        <item name="boxBackgroundColor">@color/pure_white</item>
     </style>
 
     <style name="Widget.Dodo.TextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">

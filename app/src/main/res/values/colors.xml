@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--    App colors    -->
-    <color name="prussian_blue">#17395c</color>
+    <color name="prussian_blue">#1F568F</color>
     <color name="charcoal_blue">#253648</color>
     <color name="rust">#bf3616</color>
     <color name="burnt_orange">#ba5828</color>
