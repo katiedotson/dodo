@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/standard_padding"
-                    android:hint="Search"
+                    android:hint="@string/search"
                     app:boxBackgroundColor="@color/pure_white"
                     app:endIconCheckable="true"
                     app:endIconDrawable="@drawable/ic_baseline_close_24"
@@ -57,22 +57,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/standard_padding"
-                    android:text="Filter by label"
+                    android:text="@string/home_filter_by_label"
                     android:textColor="@color/white" />
 
                 <com.google.android.material.chip.ChipGroup
-                    app:singleSelection="true"
                     android:id="@+id/labelFilters"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/standard_padding" />
+                    android:layout_marginTop="@dimen/standard_padding"
+                    app:singleSelection="true" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/clearBtn"
                     style="@style/Widget.Dodo.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:text="Clear All"
+                    android:text="@string/clear_all"
                     android:textColor="@color/white" />
 
             </LinearLayout>
@@ -84,17 +85,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/emptyStateContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <TextView
             android:id="@+id/emptyStateTv"
             style="@style/TextAppearance.Dodo.Body1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Looks like there isn't anything here yet!"
+            android:layout_marginTop="@dimen/large_padding"
+            android:text="@string/home_nothing_added_state"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -105,10 +107,44 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/large_padding"
             android:backgroundTint="@color/brunswick_green"
-            android:text="Get started"
+            android:text="@string/home_add_items_cta"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/emptyStateTv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/allFilteredContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:id="@+id/allFilteredTv"
+            style="@style/TextAppearance.Dodo.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_padding"
+            android:text="@string/home_empty_state_heading"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/allFilteredContTv"
+            style="@style/TextAppearance.Dodo.Body2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_padding"
+            android:text="@string/home_empty_state_caption"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/allFilteredTv"
+            app:layout_constraintWidth_max="300dp"
+            app:layout_constraintWidth_percent="50" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -70,6 +70,10 @@ class HomeViewModel @Inject constructor(private val todoRepository: TodoReposito
         _todos.value = filtered ?: listOf()
     }
 
+    fun todosExist(): Boolean {
+        return internalTodos != null && internalTodos?.isNotEmpty()!!
+    }
+
 
     sealed class DeleteEvent {
         object Success : DeleteEvent()

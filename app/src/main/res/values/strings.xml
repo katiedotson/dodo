@@ -7,11 +7,18 @@
     <string name="edit">Edit</string>
     <string name="save">Save</string>
     <string name="clear">Clear</string>
+    <string name="search">Search</string>
+    <string name="clear_all">Clear All</string>
 
     <string name="home_item_deleted">An item was deleted.</string>
     <string name="home_delete_this_item">Delete this item?</string>
     <string name="home_delete_confirm">Are you sure you want to permanently delete this item?</string>
     <string name="home_delete_yes">Yes, Delete</string>
+    <string name="home_filter_by_label">Filter by label</string>
+    <string name="home_empty_state_heading">Nothing here!</string>
+    <string name="home_empty_state_caption">It looks like everything has been filtered. Try removing some filters or clearing the search at the top of the screen.</string>
+    <string name="home_nothing_added_state">Looks like there isn\'t anything here yet!</string>
+    <string name="home_add_items_cta">Get started</string>
     
     <string name="edit_label_add_label_heading">Add a new label</string>
     <string name="edit_label_edit_label_heading">Edit label</string>

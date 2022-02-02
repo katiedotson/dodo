@@ -30,6 +30,11 @@ class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<T
 
     class TodoViewHolder(private val binding: ViewListItemTodoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: TodoDto, clickListener: TodoClickListeners) {
+            binding.labels.removeAllViews()
+            if (item.labelDto != null) {
+                val labelChip = LabelChip(binding.labels.context, item.labelDto, LabelChip.Mode.Display)
+                binding.labels.addView(labelChip)
+            }
             binding.date.text = if (item.dueDateExists()) "Due " + item.formattedDueDate() else null
             binding.date.toggleVisible(item.dueDateExists())
             binding.title.text = item.name

@@ -1,7 +1,9 @@
 package xyz.katiedotson.dodo.ui.fragments.home
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -9,6 +11,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,11 +69,18 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
                     .show()
             }
         })
+        val itemAnimator: DefaultItemAnimator = object : DefaultItemAnimator() {
+            override fun animateAdd(holder: RecyclerView.ViewHolder?): Boolean {
+                dispatchAddFinished(holder)
+                return false
+            }
+        }
+        binding.recycler.itemAnimator = itemAnimator
         binding.recycler.adapter = adapter
 
         lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.labels.collect {labels ->
+                viewModel.labels.collect { labels ->
                     labels.forEach { label ->
                         val chip = LabelChip(requireContext(), label, LabelChip.Mode.Choice)
                         binding.labelFilters.addView(chip)
@@ -81,7 +92,8 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
         with(viewModel) {
             todos.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
-                binding.emptyStateContainer.toggleVisible(it.count() == 0)
+                binding.emptyStateContainer.toggleVisible(it.count() == 0 && !viewModel.todosExist())
+                binding.allFilteredContainer.toggleVisible(it.count() == 0 && viewModel.todosExist())
                 binding.recycler.toggleVisible(it.count() != 0)
             }
 
@@ -115,6 +127,18 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
             labelFilters.setOnCheckedChangeListener { _, checkedId ->
                 val selectedChipColor = findSelectedChipColor(checkedId, this)
                 viewModel.labelFilterChecked(selectedChipColor)
+            }
+            clearBtn.setOnClickListener {
+                searchInput.text = null
+                labelFilters.clearCheck()
+                searchInput.clearFocus()
+            }
+            searchInput.setOnFocusChangeListener { _, _ ->
+                // hide keyboard when search input is cleared
+                (requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                    searchInput.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
+                )
             }
         }
 
