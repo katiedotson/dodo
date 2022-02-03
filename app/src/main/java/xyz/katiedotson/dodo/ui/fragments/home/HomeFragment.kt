@@ -80,8 +80,8 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
 
         lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                binding.labelFilters.removeAllViews()
                 viewModel.labels.collect { labels ->
+                    binding.labelFilters.removeAllViews()
                     labels.forEach { label ->
                         val chip = LabelChip(requireContext(), label, LabelChip.Mode.Choice)
                         binding.labelFilters.addView(chip)

@@ -37,16 +37,12 @@ class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<T
             }
             binding.date.text = if (item.dueDateExists()) "Due " + item.formattedDueDate() else null
             binding.date.toggleVisible(item.dueDateExists())
-            binding.title.text = item.name
+            binding.title.text = item.description
             binding.editBtn.setOnClickListener {
                 clickListener.onEditButtonClicked(item)
             }
             binding.deleteBtn.setOnClickListener {
                 clickListener.onDeleteButtonClicked(item)
-            }
-            if (item.labelDto != null) {
-                val labelChip = LabelChip(binding.labels.context, item.labelDto, LabelChip.Mode.Display)
-                binding.labels.addView(labelChip)
             }
         }
     }

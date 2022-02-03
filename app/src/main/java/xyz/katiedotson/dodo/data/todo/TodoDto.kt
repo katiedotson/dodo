@@ -7,10 +7,11 @@ import java.time.format.FormatStyle
 
 data class TodoDto(
     val id: Long,
-    val name: String,
+    val description: String,
     val dateDue: LocalDateTime?,
     val lastUpdate: LocalDateTime,
     val dateCreated: LocalDateTime,
+    val notes: String,
     val labelId: Long?,
     val labelColor: String?,
     val labelName: String?,

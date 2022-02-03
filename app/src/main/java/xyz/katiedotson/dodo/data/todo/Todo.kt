@@ -9,21 +9,23 @@ import java.time.LocalDateTime
 @Entity(tableName = "todos")
 data class Todo(
     @PrimaryKey(autoGenerate = true) val id: Long,
-    val name: String,
+    val description: String,
     val dateCreated: LocalDateTime,
     val lastUpdate: LocalDateTime,
     val dateDue: LocalDateTime?,
-    val labelId: Long?
+    val labelId: Long?,
+    val notes: String
 ) {
-    override fun toString() = name
+    override fun toString() = "{ TODO: \nDescription: $description \nID: $id} "
 
     @DatabaseView(
         "SELECT " +
                 "todo.id as todoId, " +
-                "todo.name as todoName, " +
+                "todo.description, " +
                 "todo.dateCreated, " +
                 "todo.lastUpdate, " +
                 "todo.dateDue, " +
+                "todo.notes, " +
                 "label.id as labelId, " +
                 "label.name as labelName, " +
                 "label.colorHex, " +
@@ -35,10 +37,11 @@ data class Todo(
     )
     data class WithLabel(
         val todoId: Long,
-        val todoName: String,
+        val description: String,
         val dateCreated: LocalDateTime,
         val lastUpdate: LocalDateTime,
         val dateDue: LocalDateTime?,
+        val notes: String,
         val labelId: Long?,
         val labelName: String?,
         val colorHex: String?,

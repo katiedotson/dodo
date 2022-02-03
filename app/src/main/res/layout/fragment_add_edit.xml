@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -18,128 +18,156 @@
             app:title="Add or edit" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/standard_padding"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <TextView
-            style="@style/TextAppearance.Dodo.Headline6.Bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/standard_padding"
-            android:layout_marginTop="@dimen/large_padding"
-            android:text="@string/add_edit_add_edit_item" />
-
-        <TextView
-            style="@style/TextAppearance.Dodo.Headline6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/standard_padding"
-            android:layout_marginTop="@dimen/large_padding"
-            android:layout_marginBottom="@dimen/standard_padding"
-            android:text="@string/add_edit_description_heading" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/titleLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/standard_padding"
-            android:hint="@string/add_edit_description_hint">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/titleField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            style="@style/TextAppearance.Dodo.Headline6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/standard_padding"
-            android:layout_marginTop="@dimen/large_padding"
-            android:text="@string/add_edit_due_date_heading" />
-
-        <TextView
-            style="@style/TextAppearance.Dodo.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/standard_padding"
-            android:layout_marginBottom="@dimen/standard_padding"
-            android:text="@string/add_edit_due_date_caption" />
-
-        <TextView
-            android:id="@+id/displayDueDate"
-            style="@style/TextAppearance.Dodo.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/standard_padding"
-            tools:text="12/20/2021" />
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/standard_padding">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/editDueDateBtn"
-                style="@style/Widget.Dodo.Button.TextButton"
+            <TextView
+                style="@style/TextAppearance.Dodo.Headline6.Bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_padding"
-                android:text="@string/edit" />
+                android:layout_marginHorizontal="@dimen/standard_padding"
+                android:layout_marginTop="@dimen/large_padding"
+                android:layout_marginBottom="@dimen/standard_padding"
+                android:text="@string/add_edit_description_heading" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/removeDueDateBtn"
-                style="@style/Widget.Dodo.Button.TextButton.Red"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/titleLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/standard_padding"
+                android:hint="@string/add_edit_description_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/descriptionField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/TextAppearance.Dodo.Headline6.Bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small_padding"
+                android:layout_marginHorizontal="@dimen/standard_padding"
+                android:layout_marginTop="@dimen/large_padding"
+                android:text="@string/add_edit_due_date_heading" />
+
+            <TextView
+                style="@style/TextAppearance.Dodo.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/standard_padding"
+                android:layout_marginBottom="@dimen/standard_padding"
+                android:text="@string/add_edit_due_date_caption" />
+
+            <TextView
+                android:id="@+id/displayDueDate"
+                style="@style/TextAppearance.Dodo.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/standard_padding"
+                tools:text="12/20/2021" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/editDueDateBtn"
+                    style="@style/Widget.Dodo.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/standard_padding"
+                    android:text="@string/edit" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/removeDueDateBtn"
+                    style="@style/Widget.Dodo.Button.TextButton.Red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_padding"
+                    android:layout_marginTop="@dimen/standard_padding"
+                    android:text="@string/clear" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/TextAppearance.Dodo.Headline6.Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/standard_padding"
+                android:layout_marginTop="@dimen/large_padding"
+                android:text="@string/add_edit_label_heading" />
+
+            <TextView
+                style="@style/TextAppearance.Dodo.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/standard_padding"
+                android:text="@string/add_edit_label_caption" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/labels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/standard_padding"
+                android:layout_marginTop="@dimen/standard_padding" />
+
+            <TextView
+                style="@style/TextAppearance.Dodo.Headline6.Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/standard_padding"
+                android:layout_marginTop="@dimen/large_padding"
+                android:text="@string/add_edit_notes_heading" />
+
+            <TextView
+                style="@style/TextAppearance.Dodo.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/standard_padding"
+                android:text="@string/add_edit_notes_caption" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/notesLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/standard_padding"
+                android:hint="@string/add_edit_notes_heading">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/notesField"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center|top"
+                    android:gravity="top"
+                    android:imeOptions="actionDone"
+                    android:inputType="textMultiLine|textCapSentences|textLongMessage"
+                    android:lines="300" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/submitBtn"
+                style="@style/Widget.Dodo.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/standard_padding"
                 android:layout_marginTop="@dimen/standard_padding"
-                android:text="@string/clear" />
+                android:text="@string/save"
+                app:elevation="0dp" />
+
         </LinearLayout>
 
-        <TextView
-            style="@style/TextAppearance.Dodo.Headline6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/standard_padding"
-            android:layout_marginTop="@dimen/large_padding"
-            android:text="@string/add_edit_label_heading" />
+    </androidx.core.widget.NestedScrollView>
 
-        <TextView
-            style="@style/TextAppearance.Dodo.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/standard_padding"
-            android:text="@string/add_edit_label_caption" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/labels"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/standard_padding"
-            android:layout_marginTop="@dimen/standard_padding" />
-
-        <include
-            layout="@layout/view_horizontal_divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="@dimen/standard_padding" />
-    </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/submitBtn"
-        style="@style/Widget.Dodo.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginHorizontal="@dimen/standard_padding"
-        android:layout_marginTop="@dimen/standard_padding"
-        android:text="@string/save" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

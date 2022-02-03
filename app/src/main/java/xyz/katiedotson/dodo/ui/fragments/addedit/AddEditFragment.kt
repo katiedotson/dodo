@@ -42,8 +42,12 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
                 viewModel.checkedLabelChanged(labelId)
             }
 
-            titleField.addTextChangedListener {
-                viewModel.titleChanged(it.toString())
+            descriptionField.addTextChangedListener {
+                viewModel.descriptionChanged(it.toString())
+            }
+
+            notesField.addTextChangedListener {
+                viewModel.notesChanged(it.toString())
             }
 
             submitBtn.setOnClickListener {
@@ -81,7 +85,8 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
                 when (it) {
                     is AddEditViewModel.AddEditViewState.InitialState -> {
                         updateDateAndLabelFields(binding, it.todo)
-                        binding.titleField.setText(it.todo?.name)
+                        binding.descriptionField.setText(it.todo?.description)
+                        binding.notesField.setText(it.todo?.notes)
                     }
                     is AddEditViewModel.AddEditViewState.EditedState -> {
                         updateDateAndLabelFields(binding, it.todo)

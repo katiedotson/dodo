@@ -7,6 +7,16 @@
     android:background="@color/white"
     tools:context=".ui.fragments.labels.EditLabelsFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Labels" />
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
@@ -14,6 +24,7 @@
         android:layout_marginBottom="200dp"
         android:clipToPadding="false"
         android:padding="@dimen/large_padding"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="xyz.katiedotson.dodo.MainActivity"
         tools:listitem="@layout/view_label_chip_list_item" />
 

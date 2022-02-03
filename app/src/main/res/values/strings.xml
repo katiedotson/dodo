@@ -45,9 +45,24 @@
     <string name="add_edit_error_description_required">A description is required.</string>
     <string name="add_edit_due_date_caption">Add an optional due date.</string>
     <string name="add_edit_label_caption">Add an optional label.</string>
+    <string name="add_edit_notes_heading">Notes</string>
+
+    <string name="settings_sorting_heading">Sorting</string>
+    <string name="settings_sort_alphabetically_radio">Sort alphabetically</string>
+    <string name="settings_sort_by_due_radio">Sort by due date (soonest first)</string>
+    <string name="settings_sort_date_created_radio">Sort by date created (oldest first)</string>
+    <string name="settings_sort_last_update_radio">Sort by last update (most recent first)</string>
+    <string name="settings_filtering_heading">Filtering</string>
+    <string name="settings_allow_filtering_by_labels_check">Allow filtering by labels</string>
+    <string name="settings_display_heading">Display</string>
+    <string name="settings_show_due_date_check">Show due date</string>
+    <string name="settings_show_label_check">Show label</string>
+    <string name="settings_show_notes_check">Show notes</string>
     
     <string name="error_database">There was something wrong when we tried to receive data.</string>
     <string name="error_network">There was something wrong when we tried to connect to the network.</string>
     <string name="error_validation">Something wasn\'t entered correctly. Please check all of the fields are filled out correctly.</string>
     <string name="add_new_item">Add new item</string>
+    <string name="add_edit_notes_caption">Add optional notes.</string>
+
 </resources>

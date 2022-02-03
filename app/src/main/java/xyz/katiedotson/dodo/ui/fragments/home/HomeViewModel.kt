@@ -64,7 +64,7 @@ class HomeViewModel @Inject constructor(private val todoRepository: TodoReposito
 
     private fun filterTodos() {
         val filtered = internalTodos
-            ?.filter { appliedSearchString == "" || it.name.startsWith(appliedSearchString) }
+            ?.filter { appliedSearchString == "" || it.description.contains(appliedSearchString, true) }
             ?.filter { appliedLabelColor == "" || appliedLabelColor.equals(it.labelColor, true) }
             ?: internalTodos
         _todos.value = filtered ?: listOf()

@@ -31,11 +31,12 @@ class AddEditViewModel @Inject constructor(
     private var isEdit = false
 
     private var todoId: Long = 0L
-    private var name: String? = null
+    private var description: String? = null
     private var dateCreated: LocalDateTime = LocalDateTime.now()
     private var lastUpdate: LocalDateTime = LocalDateTime.now()
     private var dueDate: LocalDateTime? = null
     private var labelId: Long? = null
+    private var notes: String = ""
 
     private val _viewState: MutableLiveData<AddEditViewState> = MutableLiveData<AddEditViewState>()
     val viewState: LiveData<AddEditViewState> get() = _viewState
@@ -48,10 +49,11 @@ class AddEditViewModel @Inject constructor(
     private fun currentTodo(): TodoDto {
         return TodoDto(
             id = todoId,
-            name = name ?: "",
+            description = description ?: "",
             dateDue = dueDate,
             lastUpdate = lastUpdate,
             dateCreated = dateCreated,
+            notes = notes,
             labelId = labelId,
             labelColor = null,
             labelName = null,
@@ -62,7 +64,8 @@ class AddEditViewModel @Inject constructor(
 
     private fun setTodo(todoDto: TodoDto) {
         todoId = todoDto.id
-        name = todoDto.name
+        description = todoDto.description
+        notes = todoDto.notes
         dateCreated = todoDto.dateCreated
         lastUpdate = todoDto.lastUpdate
         dueDate = todoDto.dateDue
@@ -109,17 +112,21 @@ class AddEditViewModel @Inject constructor(
     }
 
     private fun validate(): Validation {
-        val descriptionError = fieldValidator.validateNotEmpty(name)
+        val descriptionError = fieldValidator.validateNotEmpty(description)
         return Validation(passed = (descriptionError == null), descriptionError)
     }
 
-    fun titleChanged(titleText: String) {
-        name = titleText
+    fun descriptionChanged(descriptionText: String) {
+        description = descriptionText
         if (_viewState.value !is AddEditViewState.EditedState) {
             _viewState.value = AddEditViewState.EditedState(currentTodo())
         } else {
             _validationState.value = validate()
         }
+    }
+
+    fun notesChanged(notesText: String) {
+        notes = notesText
     }
 
     @SuppressLint("NewApi")

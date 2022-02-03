@@ -3,7 +3,9 @@
     <!--    App colors    -->
     <color name="prussian_blue">#11568E</color>
     <color name="charcoal_blue">#253648</color>
+    <color name="charcoal_blue_60">#5603A9F4</color>
     <color name="rust">#bf3616</color>
+    <color name="rust_60">#99BF3616</color>
     <color name="burnt_orange">#ba5828</color>
     <color name="brunswick_green">#38664D</color>
     <color name="black">#1e2400</color>

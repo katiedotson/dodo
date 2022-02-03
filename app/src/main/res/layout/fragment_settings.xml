@@ -1,13 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.fragments.settings.SettingsFragment">
 
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Settings" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/large_padding"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            style="@style/TextAppearance.Dodo.Headline6.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_padding"
+            android:text="@string/settings_sorting_heading" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/alphabeticalSortRadio"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:checked="true"
+                android:text="@string/settings_sort_alphabetically_radio" />
+
+            <RadioButton
+                android:id="@+id/dueDateSortRadio"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/settings_sort_by_due_radio" />
+
+            <RadioButton
+                android:id="@+id/dateCreatedSortRadio"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/settings_sort_date_created_radio" />
+
+            <RadioButton
+                android:id="@+id/lastUpdateRecentSortRadio"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/settings_sort_last_update_radio" />
+
+        </RadioGroup>
+
+        <TextView
+            style="@style/TextAppearance.Dodo.Headline6.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_padding"
+            android:text="@string/settings_filtering_heading" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/settings_allow_filtering_by_labels_check" />
+
+        <TextView
+            style="@style/TextAppearance.Dodo.Headline6.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_padding"
+            android:text="@string/settings_display_heading" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/settings_show_due_date_check" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/settings_show_label_check" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/settings_show_notes_check" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

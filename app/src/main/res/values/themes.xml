@@ -19,6 +19,8 @@
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Dodo.LargeComponent</item>
         <item name="textInputStyle">@style/Widget.Dodo.TextInputLayout</item>
         <item name="bottomSheetStyle">@style/Widget.Dodo.BottomSheetStyle</item>
+        <item name="checkboxStyle">@style/Widget.Dodo.CheckBox</item>
+        <item name="radioButtonStyle">@style/Widget.Dodo.RadioButton</item>
 
         <item name="statusBarBackground">?attr/colorPrimary</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">?attr/colorPrimary</item>
@@ -35,7 +37,17 @@
 
     <!--    Bottom sheet-->
     <style name="Widget.Dodo.BottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet">
-        <item name="android:background">@drawable/shape_todo_list_item</item>
+        <item name="android:background">@color/pure_white</item>
+    </style>
+
+    <!--    Check box -->
+    <style name="Widget.Dodo.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Dodo.CheckBox</item>
+    </style>
+
+    <!--    Radio -->
+    <style name="Widget.Dodo.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Dodo.Radio</item>
     </style>
 
     <!--    Chip -->
@@ -160,6 +172,16 @@
     <style name="ThemeOverlay.Dodo.Button" parent="">
         <item name="colorPrimary">@color/brunswick_green</item>
         <item name="colorOnPrimary">@color/pure_white</item>
+    </style>
+
+    <style name="ThemeOverlay.Dodo.CheckBox" parent="">
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorSecondary">@color/black</item>
+    </style>
+
+    <style name="ThemeOverlay.Dodo.Radio" parent="">
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorSecondary">@color/black</item>
     </style>
 
 </resources>

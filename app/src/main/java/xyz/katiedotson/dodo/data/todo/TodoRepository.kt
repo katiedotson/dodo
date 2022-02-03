@@ -40,10 +40,11 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDao) {
     private fun toDto(it: Todo.WithLabel): TodoDto {
         return TodoDto(
             id = it.todoId,
-            name = it.todoName,
+            description = it.description,
             dateDue = it.dateDue,
             lastUpdate = it.lastUpdate,
             dateCreated = it.dateCreated,
+            notes = it.notes,
             labelId = it.labelId,
             labelColor = it.colorHex,
             labelName = it.labelName,
@@ -55,11 +56,12 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDao) {
     private fun toTodo(dto: TodoDto): Todo {
         return Todo(
             dto.id,
-            dto.name,
+            dto.description,
             dto.dateCreated,
             dto.lastUpdate,
             dto.dateDue,
-            dto.labelId
+            dto.labelId,
+            dto.notes
         )
     }
 
