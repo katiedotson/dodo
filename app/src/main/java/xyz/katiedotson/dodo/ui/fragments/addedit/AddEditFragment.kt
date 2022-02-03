@@ -1,6 +1,5 @@
 package xyz.katiedotson.dodo.ui.fragments.addedit
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.children
