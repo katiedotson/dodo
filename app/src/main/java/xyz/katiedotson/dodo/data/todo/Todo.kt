@@ -13,7 +13,7 @@ data class Todo(
     val dateCreated: LocalDateTime,
     val lastUpdate: LocalDateTime,
     val dateDue: LocalDateTime?,
-    val labelColor: String?
+    val labelId: Long?
 ) {
     override fun toString() = name
 
@@ -24,12 +24,13 @@ data class Todo(
                 "todo.dateCreated, " +
                 "todo.lastUpdate, " +
                 "todo.dateDue, " +
+                "label.id as labelId, " +
                 "label.name as labelName, " +
                 "label.colorHex, " +
                 "color.useBorder, " +
                 "color.useWhiteText " +
                 "FROM todos as todo  " +
-                "LEFT OUTER JOIN labels as label ON upper(todo.labelColor) = upper(label.colorHex) " +
+                "LEFT OUTER JOIN labels as label ON upper(todo.labelId) = upper(label.id) " +
                 "LEFT OUTER JOIN colors as color ON upper(color.hex) = upper(label.colorHex) "
     )
     data class WithLabel(

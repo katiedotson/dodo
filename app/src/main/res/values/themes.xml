@@ -8,8 +8,8 @@
         <item name="colorOnPrimary">@color/white</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/rust</item>
-        <item name="colorSecondaryVariant">@color/burnt_orange</item>
+        <item name="colorSecondary">@color/burnt_orange</item>
+        <item name="colorSecondaryVariant">@color/rust</item>
         <item name="colorOnSecondary">@color/black</item>
 
         <!-- Customize your theme here. -->

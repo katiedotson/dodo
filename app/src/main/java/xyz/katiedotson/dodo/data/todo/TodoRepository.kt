@@ -44,6 +44,7 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDao) {
             dateDue = it.dateDue,
             lastUpdate = it.lastUpdate,
             dateCreated = it.dateCreated,
+            labelId = it.labelId,
             labelColor = it.colorHex,
             labelName = it.labelName,
             useBorder = it.useBorder,
@@ -58,7 +59,7 @@ class TodoRepository @Inject constructor(private val todoDao: TodoDao) {
             dto.dateCreated,
             dto.lastUpdate,
             dto.dateDue,
-            dto.labelColor
+            dto.labelId
         )
     }
 

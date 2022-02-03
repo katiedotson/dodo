@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--    App colors    -->
-    <color name="prussian_blue">#1F568F</color>
+    <color name="prussian_blue">#11568E</color>
     <color name="charcoal_blue">#253648</color>
     <color name="rust">#bf3616</color>
     <color name="burnt_orange">#ba5828</color>
-    <color name="brunswick_green">#325843</color>
+    <color name="brunswick_green">#38664D</color>
     <color name="black">#1e2400</color>
     <color name="white">#f5f5f5FF</color>
     <color name="pure_white">#ffffffff</color>

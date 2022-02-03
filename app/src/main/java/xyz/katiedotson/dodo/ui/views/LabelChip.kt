@@ -11,12 +11,15 @@ import xyz.katiedotson.dodo.data.label.LabelDto
 
 class LabelChip(context: Context) : Chip(context) {
 
+    var labelId: Long? = null
+
     constructor(context: Context, label: LabelDto, mode: Mode): this(context) {
         setLabelBackgroundColor(label.colorHex)
         setText(label.labelName)
         setMode(mode)
         setBorder(label.useBorder == true)
         setTextColor(label.useWhiteText == true)
+        labelId = label.labelId
     }
 
     constructor(context: Context, color: DodoColor, mode: Mode) : this(context) {

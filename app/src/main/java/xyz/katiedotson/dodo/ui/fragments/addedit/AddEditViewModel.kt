@@ -35,7 +35,7 @@ class AddEditViewModel @Inject constructor(
     private var dateCreated: LocalDateTime = LocalDateTime.now()
     private var lastUpdate: LocalDateTime = LocalDateTime.now()
     private var dueDate: LocalDateTime? = null
-    private var labelColor: String? = null
+    private var labelId: Long? = null
 
     private val _viewState: MutableLiveData<AddEditViewState> = MutableLiveData<AddEditViewState>()
     val viewState: LiveData<AddEditViewState> get() = _viewState
@@ -52,7 +52,8 @@ class AddEditViewModel @Inject constructor(
             dateDue = dueDate,
             lastUpdate = lastUpdate,
             dateCreated = dateCreated,
-            labelColor = labelColor,
+            labelId = labelId,
+            labelColor = null,
             labelName = null,
             useWhiteText = null,
             useBorder = null
@@ -65,7 +66,7 @@ class AddEditViewModel @Inject constructor(
         dateCreated = todoDto.dateCreated
         lastUpdate = todoDto.lastUpdate
         dueDate = todoDto.dateDue
-        labelColor = todoDto.labelColor
+        labelId = todoDto.labelId
     }
 
     fun loadTodo(todoId: Long) {
@@ -121,10 +122,6 @@ class AddEditViewModel @Inject constructor(
         }
     }
 
-    fun checkedColorChanged(color: String?) {
-        labelColor = "#$color"
-    }
-
     @SuppressLint("NewApi")
     fun dueDateChanged(newDueDate: Long?) {
         if (newDueDate == null) {
@@ -135,6 +132,10 @@ class AddEditViewModel @Inject constructor(
             dueDate = date
             _viewState.value = AddEditViewState.EditedState(currentTodo())
         }
+    }
+
+    fun checkedLabelChanged(labelId: Long?) {
+        this.labelId = labelId
     }
 
     sealed class AddEditViewState {

@@ -11,6 +11,7 @@ data class TodoDto(
     val dateDue: LocalDateTime?,
     val lastUpdate: LocalDateTime,
     val dateCreated: LocalDateTime,
+    val labelId: Long?,
     val labelColor: String?,
     val labelName: String?,
     val useWhiteText: Boolean?,

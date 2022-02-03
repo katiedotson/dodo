@@ -30,13 +30,12 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
         viewModel.loadTodo(args.todoId)
 
         val binding = FragmentAddEditBinding.bind(view)
-        binding.labels.isSelectionRequired = true
         binding.labels.isSingleSelection = true
 
         with(binding) {
             labels.setOnCheckedChangeListener { _, checkedId ->
-                val color = findSelectedChipColor(checkedId, binding)
-                viewModel.checkedColorChanged(color)
+                val labelId = findSelectedLabelId(checkedId, binding)
+                viewModel.checkedLabelChanged(labelId)
             }
 
             titleField.addTextChangedListener {
@@ -115,9 +114,9 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
         }
     }
 
-    private fun findSelectedChipColor(checkedId: Int, binding: FragmentAddEditBinding): String? {
-        val chip = binding.labels.findViewById<Chip?>(checkedId)
-        return if (chip != null) Integer.toHexString(chip.chipBackgroundColor!!.defaultColor) else null
+    private fun findSelectedLabelId(checkedId: Int, binding: FragmentAddEditBinding): Long? {
+        val chip = binding.labels.findViewById<LabelChip?>(checkedId)
+        return chip?.labelId
     }
 
     private fun updateDateAndLabelFields(binding: FragmentAddEditBinding, todo: TodoDto?) {
@@ -129,9 +128,9 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
             binding.displayDueDate.text = getString(R.string.add_edit_no_due_date)
             binding.editDueDateBtn.text = getString(R.string.add_edit_add_due_date)
         }
-        if (todo?.labelColor != null) {
+        if (todo?.labelId != null) {
             (binding.labels.children.find { view ->
-                (view as Chip).chipBackgroundColor?.defaultColor == Color.parseColor(todo.labelColor)
+                (view as LabelChip).labelId == todo.labelId
             } as Chip).isChecked = true
         }
     }
