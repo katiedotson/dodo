@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_addEditFragment"
-            app:destination="@id/addEditFragment">
+            app:destination="@id/addEditFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/slide_down">
             <argument
                 android:name="todoId"
                 app:argType="long"
@@ -25,7 +29,11 @@
             app:nullable="false" />
         <action
             android:id="@+id/action_homeFragment_to_editLabelsFragment"
-            app:destination="@id/editLabelsFragment" />
+            app:destination="@id/editLabelsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
 
     <fragment
@@ -40,7 +48,11 @@
             app:nullable="false" />
         <action
             android:id="@+id/action_addEditFragment_to_homeFragment"
-            app:destination="@id/homeFragment">
+            app:destination="@id/homeFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out">
             <argument
                 android:name="newTodoId"
                 app:argType="long"
@@ -52,7 +64,9 @@
         android:name="xyz.katiedotson.dodo.ui.fragments.labels.EditLabelsFragment"
         android:label="fragment_edit_labels"
         tools:layout="@layout/fragment_edit_labels" />
-    <action
-        android:id="@+id/action_global_addEditFragment"
-        app:destination="@id/addEditFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="xyz.katiedotson.dodo.ui.fragments.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

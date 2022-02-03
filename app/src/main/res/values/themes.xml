@@ -104,7 +104,6 @@
 
     <style name="TextAppearance.Dodo.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="fontFamily">@font/roboto_bold</item>
-        <item name="textAllCaps">true</item>
     </style>
 
     <style name="TextAppearance.Dodo.Headline6" parent="TextAppearance.MaterialComponents.Headline6">

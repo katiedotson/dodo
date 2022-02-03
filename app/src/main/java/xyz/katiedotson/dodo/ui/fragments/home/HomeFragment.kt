@@ -80,6 +80,7 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
 
         lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                binding.labelFilters.removeAllViews()
                 viewModel.labels.collect { labels ->
                     labels.forEach { label ->
                         val chip = LabelChip(requireContext(), label, LabelChip.Mode.Choice)
@@ -114,8 +115,7 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
 
         with(binding) {
             emptyStateCta.setOnClickListener {
-                val directions = HomeFragmentDirections.actionHomeFragmentToAddEditFragment(0L)
-                mainNavController.navigate(directions)
+                navigateToAddEditNew()
             }
             searchInput.doOnTextChanged { text, _, _, _ ->
                 viewModel.searchTextChanged(text)
@@ -140,8 +140,16 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
                     InputMethodManager.HIDE_NOT_ALWAYS
                 )
             }
+            addNewItemFab.setOnClickListener {
+                navigateToAddEditNew()
+            }
         }
 
+    }
+
+    private fun navigateToAddEditNew() {
+        val directions = HomeFragmentDirections.actionHomeFragmentToAddEditFragment(0L)
+        mainNavController.navigate(directions)
     }
 
     private fun findSelectedChipColor(checkedId: Int, binding: FragmentHomeBinding): String? {

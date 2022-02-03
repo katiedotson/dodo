@@ -33,6 +33,11 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit) {
         binding.labels.isSingleSelection = true
 
         with(binding) {
+            toolbar.title = if (args.todoId != 0L) "Edit" else "Add"
+            toolbar.setNavigationOnClickListener {
+                mainNavController.popBackStack()
+            }
+
             labels.setOnCheckedChangeListener { _, checkedId ->
                 val labelId = findSelectedLabelId(checkedId, binding)
                 viewModel.checkedLabelChanged(labelId)

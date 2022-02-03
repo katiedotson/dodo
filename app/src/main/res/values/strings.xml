@@ -49,4 +49,5 @@
     <string name="error_database">There was something wrong when we tried to receive data.</string>
     <string name="error_network">There was something wrong when we tried to connect to the network.</string>
     <string name="error_validation">Something wasn\'t entered correctly. Please check all of the fields are filled out correctly.</string>
+    <string name="add_new_item">Add new item</string>
 </resources>
