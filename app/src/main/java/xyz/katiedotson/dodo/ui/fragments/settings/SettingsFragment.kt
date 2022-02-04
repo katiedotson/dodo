@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.katiedotson.dodo.R
+import xyz.katiedotson.dodo.data.dto.DodoError
 import xyz.katiedotson.dodo.data.usersettings.SortSetting
 import xyz.katiedotson.dodo.databinding.FragmentSettingsBinding
 import xyz.katiedotson.dodo.ui.base.BaseFragment
@@ -20,14 +21,25 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
         binding = FragmentSettingsBinding.bind(view)
 
-        viewModel.userSettings.observe(viewLifecycleOwner) {
-            val id = sortSettingToRadioId()[it.sortSetting]
-            binding.radioGroup.check(id!!)
-            binding.filteringByLabelsCheckBox.isChecked = it.allowFilteringByLabels
-            binding.showDueDateCheckBox.isChecked = it.showDueDate
-            binding.showDateCreatedCheckBox.isChecked = it.showDateCreated
-            binding.showNotesCheckBox.isChecked = it.showNotes
-            binding.showLabelCheckBox.isChecked = it.showLabel
+        viewModel.userSettingsLoadEvent.observe(viewLifecycleOwner) {
+            when (it.getContentIfNotHandled()) {
+                is SettingsViewModel.UserSettingsLoadEvent.Success -> {
+                    val value = it.content as SettingsViewModel.UserSettingsLoadEvent.Success
+                    val id = sortSettingToRadioId()[value.userSettingsDto.sortSetting]
+                    binding.radioGroup.check(id!!)
+                    binding.filteringByLabelsCheckBox.isChecked = value.userSettingsDto.allowFilteringByLabels
+                    binding.showDueDateCheckBox.isChecked = value.userSettingsDto.showDueDate
+                    binding.showDateCreatedCheckBox.isChecked = value.userSettingsDto.showDateCreated
+                    binding.showNotesCheckBox.isChecked = value.userSettingsDto.showNotes
+                    binding.showLabelCheckBox.isChecked = value.userSettingsDto.showLabel
+                }
+                is SettingsViewModel.UserSettingsLoadEvent.Failure -> {
+                    showError(binding.root, DodoError.DATABASE_ERROR)
+                }
+                else -> {
+                    // no op
+                }
+            }
         }
 
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -59,7 +71,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             viewModel.onShowNotesChanged(checked)
         }
 
-
     }
 
     private fun sortSettingToRadioId() =
@@ -69,6 +80,5 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             SortSetting.DateCreated to binding.dateCreatedSortRadio.id,
             SortSetting.LastUpdate to binding.lastUpdateRecentSortRadio.id
         )
-
 
 }

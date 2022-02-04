@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import xyz.katiedotson.dodo.common.Event
 import xyz.katiedotson.dodo.data.usersettings.SortSetting
 import xyz.katiedotson.dodo.data.usersettings.UserSettingsDto
@@ -24,24 +26,28 @@ class SettingsViewModel @Inject constructor(private val userSettingsRepository: 
     private var showLabel = true
     private var showNotes = false
 
-    private val _userSettings = MutableLiveData<UserSettingsDto>()
-    val userSettings: LiveData<UserSettingsDto> get() = _userSettings
+    private val _userSettingsLoadEvent = MutableLiveData<Event<UserSettingsLoadEvent>>()
+    val userSettingsLoadEvent: LiveData<Event<UserSettingsLoadEvent>> get() = _userSettingsLoadEvent
 
     private val _settingsUpdateEvent = MutableLiveData<Event<SettingsUpdateEvent>>()
     val settingsUpdateEvent: LiveData<Event<SettingsUpdateEvent>> get() = _settingsUpdateEvent
 
     init {
         viewModelScope.launch {
-            userSettingsRepository.userSettings.collect {
-                _userSettings.value = it
-                id = it.id
-                sortSetting = it.sortSetting
-                allowFilteringByLabels = it.allowFilteringByLabels
-                showDueDate = it.showDueDate
-                showLastUpdate = it.showLastUpdate
-                showDateCreated = it.showDateCreated
-                showNotes = it.showNotes
-                showLabel = it.showLabel
+            try {
+                val settings = userSettingsRepository.userSettings.first()
+                _userSettingsLoadEvent.value = Event(UserSettingsLoadEvent.Success(settings))
+                id = settings.id
+                sortSetting = settings.sortSetting
+                allowFilteringByLabels = settings.allowFilteringByLabels
+                showDueDate = settings.showDueDate
+                showLastUpdate = settings.showLastUpdate
+                showDateCreated = settings.showDateCreated
+                showNotes = settings.showNotes
+                showLabel = settings.showLabel
+            } catch (throwable: Throwable) {
+                Timber.e(throwable)
+                _userSettingsLoadEvent.value = Event(UserSettingsLoadEvent.Failure)
             }
         }
     }
@@ -107,6 +113,11 @@ class SettingsViewModel @Inject constructor(private val userSettingsRepository: 
     sealed class SettingsUpdateEvent {
         object Success : SettingsUpdateEvent()
         object Failure : SettingsUpdateEvent()
+    }
+
+    sealed class UserSettingsLoadEvent {
+        data class Success(val userSettingsDto: UserSettingsDto) : UserSettingsLoadEvent()
+        object Failure : UserSettingsLoadEvent()
     }
 
 }
