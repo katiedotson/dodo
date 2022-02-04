@@ -1,11 +1,10 @@
 package xyz.katiedotson.dodo
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.katiedotson.dodo.databinding.ActivityMainBinding
@@ -27,10 +26,4 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
 
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Have the NavigationUI look for an action or destination matching the menu
-        // item id and navigate there if found.
-        // Otherwise, bubble up to the parent.
-        return item.onNavDestinationSelected(findNavController(R.id.nav_host_fragment)) || super.onOptionsItemSelected(item)
-    }
 }

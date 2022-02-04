@@ -184,4 +184,9 @@
         <item name="colorSecondary">@color/black</item>
     </style>
 
+    <style name="Theme.Dodo.Fullscreen" parent="Theme.Dodo">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
 </resources>

@@ -19,7 +19,7 @@
     <string name="home_empty_state_caption">It looks like everything has been filtered. Try removing some filters or clearing the search at the top of the screen.</string>
     <string name="home_nothing_added_state">Looks like there isn\'t anything here yet!</string>
     <string name="home_add_items_cta">Get started</string>
-    
+
     <string name="edit_label_add_label_heading">Add a new label</string>
     <string name="edit_label_edit_label_heading">Edit label</string>
     <string name="edit_label_label_title_heading">Label title</string>
@@ -31,7 +31,7 @@
     <string name="edit_label_delete_this_item">Delete this item?</string>
     <string name="edit_label_delete_confirm">Are you sure you want to permanently delete this item? This label will be removed from any items associated with it.</string>
     <string name="edit_label_delete_yes">Yes, Delete</string>
-    
+
     <string name="add_edit_add_due_date">Add Due Date</string>
     <string name="add_edit_edit_due_date">Edit Due Date</string>
     <string name="add_edit_select_due_date">Select a due date</string>
@@ -58,11 +58,14 @@
     <string name="settings_show_due_date_check">Show due date</string>
     <string name="settings_show_label_check">Show label</string>
     <string name="settings_show_notes_check">Show notes</string>
-    
+
     <string name="error_database">There was something wrong when we tried to receive data.</string>
     <string name="error_network">There was something wrong when we tried to connect to the network.</string>
     <string name="error_validation">Something wasn\'t entered correctly. Please check all of the fields are filled out correctly.</string>
     <string name="add_new_item">Add new item</string>
     <string name="add_edit_notes_caption">Add optional notes.</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

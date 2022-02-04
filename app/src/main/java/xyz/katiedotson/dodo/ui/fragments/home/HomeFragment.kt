@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -17,7 +16,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import xyz.katiedotson.dodo.MainActivityViewModel
 import xyz.katiedotson.dodo.R
 import xyz.katiedotson.dodo.common.extensions.toggleVisible
 import xyz.katiedotson.dodo.data.todo.TodoDto
@@ -36,12 +34,8 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val activityViewModel: MainActivityViewModel by activityViewModels()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        activityViewModel.initColors()
 
         _binding = FragmentHomeBinding.bind(view)
 

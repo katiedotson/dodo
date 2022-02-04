@@ -11,14 +11,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dodo">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".LoadingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:label="@string/title_activity_fullscreen"
+            android:theme="@style/Theme.Dodo.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
