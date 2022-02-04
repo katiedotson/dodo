@@ -19,8 +19,8 @@ class LoadingActivity : AppCompatActivity() {
 
         activityViewModel.mediatorLiveData.observe(this) {
             if (it.colorsHandled && it.userSettingsHandled) {
-                startActivity(Intent(baseContext, MainActivity::class.java).also { intent ->
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(Intent(this, MainActivity::class.java).also { intent ->
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 })
             }
         }

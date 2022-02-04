@@ -15,7 +15,7 @@ import xyz.katiedotson.dodo.data.usersettings.UserSettingsDao
 @Database(
     entities = [Todo::class, Label::class, DodoColor::class, UserSettings::class],
     views = [Todo.WithLabel::class, Label.WithColor::class],
-    version = 7,
+    version = 8,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

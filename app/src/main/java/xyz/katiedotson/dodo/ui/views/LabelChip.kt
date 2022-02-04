@@ -22,10 +22,10 @@ class LabelChip(context: Context) : Chip(context) {
         labelId = label.labelId
     }
 
-    constructor(context: Context, color: DodoColor, mode: Mode) : this(context) {
+    constructor(context: Context, color: DodoColor) : this(context) {
         setLabelBackgroundColor(color.hex)
         setText(color.displayName)
-        setMode(mode)
+        setMode(Mode.Choice)
         setBorder(color.useBorder)
         setTextColor(color.useWhiteText)
     }

@@ -11,6 +11,7 @@ import timber.log.Timber
 import xyz.katiedotson.dodo.common.Event
 import xyz.katiedotson.dodo.data.color.ColorRepository
 import xyz.katiedotson.dodo.data.color.DodoColor
+import xyz.katiedotson.dodo.data.usersettings.SortSetting
 import xyz.katiedotson.dodo.data.usersettings.UserSettings
 import xyz.katiedotson.dodo.data.usersettings.UserSettingsRepository
 import javax.inject.Inject
@@ -92,12 +93,13 @@ class LoadingActivityViewModel @Inject constructor(
             kotlin.runCatching {
                 val userSettings = UserSettings(
                     id = 0L,
-                    sort = "",
+                    sort = SortSetting.Alphabetical.name,
                     allowFilteringByLabels = true,
                     showDueDate = true,
                     showLastUpdate = false,
                     showDateCreated = false,
-                    showNotes = false
+                    showNotes = false,
+                    showLabel = true
                 )
                 userSettingsRepository.insert(userSettings)
             }.onFailure {

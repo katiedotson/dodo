@@ -1,18 +1,18 @@
 package xyz.katiedotson.dodo.data.usersettings
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserSettingsDao {
 
-    @Query("SELECT * FROM usersettings Where id = 1")
+    @Query("SELECT * FROM usersettings Where id = 0")
     fun select(): Flow<UserSettings>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOne(userSettings: UserSettings)
+
+    @Update
+    suspend fun update(toModel: UserSettings)
 
 }

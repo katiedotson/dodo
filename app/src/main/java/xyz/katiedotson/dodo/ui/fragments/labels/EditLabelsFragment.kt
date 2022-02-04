@@ -64,7 +64,7 @@ class EditLabelsFragment : BaseFragment(R.layout.fragment_edit_labels) {
         with(viewModel) {
             colors.observe(viewLifecycleOwner) { colors ->
                 colors?.forEach { dodoColor ->
-                    val chip = LabelChip(requireContext(), dodoColor, LabelChip.Mode.Choice)
+                    val chip = LabelChip(requireContext(), dodoColor)
                     binding.chipGroup.addView(chip)
                 }
             }

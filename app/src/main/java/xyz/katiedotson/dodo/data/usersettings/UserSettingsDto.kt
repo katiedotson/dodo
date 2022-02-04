@@ -1,12 +1,8 @@
 package xyz.katiedotson.dodo.data.usersettings
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity(tableName = "usersettings")
-data class UserSettings(
-    @PrimaryKey(autoGenerate = false) val id: Long,
-    val sort: String,
+data class UserSettingsDto(
+    val id: Long,
+    val sortSetting: SortSetting,
     val allowFilteringByLabels: Boolean,
     val showDueDate: Boolean,
     val showLastUpdate: Boolean,

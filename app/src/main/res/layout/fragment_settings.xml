@@ -71,6 +71,7 @@
             android:text="@string/settings_filtering_heading" />
 
         <CheckBox
+            android:id="@+id/filteringByLabelsCheckBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/settings_allow_filtering_by_labels_check" />
@@ -83,16 +84,31 @@
             android:text="@string/settings_display_heading" />
 
         <CheckBox
+            android:id="@+id/showDueDateCheckBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/settings_show_due_date_check" />
 
         <CheckBox
+            android:id="@+id/showDateCreatedCheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/settings_show_date_created_check" />
+
+        <CheckBox
+            android:id="@+id/showLastUpdateCheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/settings_show_last_update_check" />
+
+        <CheckBox
+            android:id="@+id/showLabelCheckBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/settings_show_label_check" />
 
         <CheckBox
+            android:id="@+id/showNotesCheckBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/settings_show_notes_check" />
