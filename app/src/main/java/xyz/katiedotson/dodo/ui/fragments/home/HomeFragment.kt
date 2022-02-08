@@ -17,6 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import xyz.katiedotson.dodo.R
+import xyz.katiedotson.dodo.common.extensions.toggleGone
 import xyz.katiedotson.dodo.common.extensions.toggleVisible
 import xyz.katiedotson.dodo.data.todo.TodoDto
 import xyz.katiedotson.dodo.databinding.FragmentHomeBinding
@@ -104,6 +105,10 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
                         // no op
                     }
                 }
+            }
+
+            userSettingsLiveData.observe(viewLifecycleOwner) {
+                binding.filtersContainer.toggleGone(it.allowFilteringByLabels)
             }
         }
 

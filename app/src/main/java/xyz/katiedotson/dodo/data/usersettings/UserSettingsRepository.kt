@@ -35,14 +35,14 @@ class UserSettingsRepository @Inject constructor(private val userSettingsDao: Us
 
     private fun toModel(settingsDto: UserSettingsDto): UserSettings {
         return UserSettings(
-            settingsDto.id,
-            settingsDto.sortSetting.name,
-            settingsDto.allowFilteringByLabels,
-            settingsDto.showDueDate,
-            settingsDto.showLastUpdate,
-            settingsDto.showDateCreated,
-            settingsDto.showNotes,
-            settingsDto.showLabel
+            id = settingsDto.id,
+            sort = settingsDto.sortSetting.name,
+            allowFilteringByLabels = settingsDto.allowFilteringByLabels,
+            showDueDate = settingsDto.showDueDate,
+            showLastUpdate = settingsDto.showLastUpdate,
+            showDateCreated = settingsDto.showDateCreated,
+            showNotes = settingsDto.showNotes,
+            showLabel = settingsDto.showLabel
         )
     }
 

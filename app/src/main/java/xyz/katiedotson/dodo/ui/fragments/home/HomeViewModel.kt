@@ -28,6 +28,9 @@ class HomeViewModel @Inject constructor(
     val todos: LiveData<List<TodoDto>> get() = _todos
     private val _todos: MutableLiveData<List<TodoDto>> = MutableLiveData()
 
+    val userSettingsLiveData: LiveData<UserSettingsDto> get() = _userSettingsLiveData
+    private val _userSettingsLiveData = MutableLiveData<UserSettingsDto>()
+
     val labels = labelRepository.labelsFlow
 
     private var internalTodos: List<TodoDto> = listOf()
@@ -39,6 +42,7 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             settings = settingsRepository.userSettings.first()
+            _userSettingsLiveData.value = settings
             todoRepository.todosFlow.collect {
                 _todos.value = it
                 internalTodos = it
@@ -59,6 +63,7 @@ class HomeViewModel @Inject constructor(
                 _deleteEvent.value = Event(DeleteEvent.Failure(DodoError.DATABASE_ERROR))
             }.onSuccess {
                 _deleteEvent.value = Event(DeleteEvent.Success)
+                filterAndSortTodos()
             }
         }
     }
@@ -80,8 +85,8 @@ class HomeViewModel @Inject constructor(
             .sortedWith(
                 compareBy { getComparator(it) }
             )
-        if (settings.sortSetting == SortSetting.LastUpdate || settings.sortSetting == SortSetting.DueDate) {
-            filtered = filtered.reversed().toList()
+        if (settings.sortSetting == SortSetting.LastUpdate) {
+            filtered = filtered.asReversed()
         }
         _todos.value = filtered
     }
@@ -92,9 +97,7 @@ class HomeViewModel @Inject constructor(
             SortSetting.DateCreated -> first.dateCreated
             SortSetting.DueDate -> first.dateDue
             SortSetting.LastUpdate -> first.lastUpdate
-            else -> first.description
         }
-
     }
 
     fun todosExist(): Boolean {

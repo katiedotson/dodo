@@ -25,13 +25,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             when (it.getContentIfNotHandled()) {
                 is SettingsViewModel.UserSettingsLoadEvent.Success -> {
                     val value = it.content as SettingsViewModel.UserSettingsLoadEvent.Success
-                    val id = sortSettingToRadioId()[value.userSettingsDto.sortSetting]
-                    binding.radioGroup.check(id!!)
-                    binding.filteringByLabelsCheckBox.isChecked = value.userSettingsDto.allowFilteringByLabels
-                    binding.showDueDateCheckBox.isChecked = value.userSettingsDto.showDueDate
-                    binding.showDateCreatedCheckBox.isChecked = value.userSettingsDto.showDateCreated
-                    binding.showNotesCheckBox.isChecked = value.userSettingsDto.showNotes
-                    binding.showLabelCheckBox.isChecked = value.userSettingsDto.showLabel
+                    setInitialState(value, binding)
                 }
                 is SettingsViewModel.UserSettingsLoadEvent.Failure -> {
                     showError(binding.root, DodoError.DATABASE_ERROR)
@@ -41,6 +35,17 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
                 }
             }
         }
+    }
+
+    private fun setInitialState(value: SettingsViewModel.UserSettingsLoadEvent.Success, binding: FragmentSettingsBinding) {
+        val id = sortSettingToRadioId()[value.userSettingsDto.sortSetting]
+        binding.radioGroup.check(id!!)
+        binding.filteringByLabelsCheckBox.isChecked = value.userSettingsDto.allowFilteringByLabels
+        binding.showDueDateCheckBox.isChecked = value.userSettingsDto.showDueDate
+        binding.showDateCreatedCheckBox.isChecked = value.userSettingsDto.showDateCreated
+        binding.showLastUpdateCheckBox.isChecked = value.userSettingsDto.showLastUpdate
+        binding.showNotesCheckBox.isChecked = value.userSettingsDto.showNotes
+        binding.showLabelCheckBox.isChecked = value.userSettingsDto.showLabel
 
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             val sortSetting = sortSettingToRadioId().entries.find { it.value == checkedId }
@@ -70,7 +75,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         binding.showNotesCheckBox.setOnCheckedChangeListener { _, checked ->
             viewModel.onShowNotesChanged(checked)
         }
-
     }
 
     private fun sortSettingToRadioId() =
