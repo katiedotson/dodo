@@ -1,6 +1,7 @@
 package xyz.katiedotson.dodo.data.todo
 
 import xyz.katiedotson.dodo.data.label.LabelDto
+import xyz.katiedotson.dodo.data.usersettings.UserSettingsDto
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -16,7 +17,8 @@ data class TodoDto(
     val labelColor: String?,
     val labelName: String?,
     val useWhiteText: Boolean?,
-    val useBorder: Boolean?
+    val useBorder: Boolean?,
+    var settings: UserSettingsDto? = null
 ) {
 
     val labelDto: LabelDto? = if (labelName != null && labelColor != null) LabelDto(

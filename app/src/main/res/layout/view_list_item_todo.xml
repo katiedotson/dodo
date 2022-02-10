@@ -13,33 +13,93 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/standard_padding">
 
-        <LinearLayout
-            android:id="@+id/titleAndDelete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/title"
-                style="@style/TextAppearance.Dodo.Headline6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/standard_padding"
-                android:layout_weight="4"
-                tools:text="This is a test. This is a test to see if the text breaks." />
-
-        </LinearLayout>
-
         <TextView
-            android:id="@+id/date"
-            style="@style/TextAppearance.Dodo.Body1"
+            android:id="@+id/title"
+            style="@style/TextAppearance.Dodo.Headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_padding"
+            android:layout_marginTop="@dimen/standard_padding"
+            android:layout_weight="4"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="This is a test. This is a test to see if the text breaks." />
+
+
+        <LinearLayout
+            android:id="@+id/dateLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/standard_padding"
+            android:layout_marginStart="@dimen/standard_padding"
+            android:layout_marginTop="@dimen/standard_padding"
+            android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleAndDelete"
-            tools:text="12/26/2021" />
+            app:layout_constraintTop_toBottomOf="@id/title">
+
+            <LinearLayout
+                android:id="@+id/dueDateLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_padding"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextAppearance.Dodo.Body1.Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Due" />
+
+                <TextView
+                    android:id="@+id/date"
+                    style="@style/TextAppearance.Dodo.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/standard_padding"
+                    tools:text="12/26/2021" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lastUpdateDateLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_padding">
+
+                <TextView
+                    style="@style/TextAppearance.Dodo.Body1.Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Update" />
+
+                <TextView
+                    android:id="@+id/lastUpdateDate"
+                    style="@style/TextAppearance.Dodo.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/standard_padding"
+                    tools:text="12/26/2021" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/createdDateLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_padding">
+
+                <TextView
+                    style="@style/TextAppearance.Dodo.Body1.Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Created" />
+
+                <TextView
+                    android:id="@+id/createdDate"
+                    style="@style/TextAppearance.Dodo.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/standard_padding"
+                    tools:text="12/26/2021" />
+            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/labels"
@@ -48,7 +108,18 @@
             android:layout_marginHorizontal="@dimen/standard_padding"
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date" />
+            app:layout_constraintTop_toBottomOf="@id/dateLayout" />
+
+        <TextView
+            android:id="@+id/notes"
+            style="@style/TextAppearance.Dodo.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_padding"
+            android:layout_marginTop="@dimen/standard_padding"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labels"
+            tools:text="@string/lorem_ipsum" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/deleteBtn"
@@ -58,7 +129,7 @@
             android:src="@mipmap/ic_launcher"
             android:text="@string/delete"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labels" />
+            app:layout_constraintTop_toBottomOf="@id/notes" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/editBtn"
@@ -68,7 +139,7 @@
             android:gravity="end"
             android:text="@string/edit"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labels" />
+            app:layout_constraintTop_toBottomOf="@id/notes" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -3,13 +3,15 @@ package xyz.katiedotson.dodo.data.todo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
+import xyz.katiedotson.dodo.data.usersettings.SortSetting
+import xyz.katiedotson.dodo.data.usersettings.UserSettingsDto
 import javax.inject.Inject
 
 
 class TodoRepository @Inject constructor(private val todoDao: TodoDao) {
 
     val todosFlow: Flow<List<TodoDto>>
-        get() = todoDao.getCompleteTodosFlow().transform{
+        get() = todoDao.getCompleteTodosFlow().transform {
             emit(it.map { todo ->
                 toDto(todo)
             })

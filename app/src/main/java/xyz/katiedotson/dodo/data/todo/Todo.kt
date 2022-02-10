@@ -49,5 +49,4 @@ data class Todo(
         val useBorder: Boolean?
     )
 
-
 }

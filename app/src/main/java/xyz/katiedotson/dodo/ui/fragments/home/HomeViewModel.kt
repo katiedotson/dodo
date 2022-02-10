@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
             _userSettingsLiveData.value = settings
             todoRepository.todosFlow.collect {
                 _todos.value = it
-                internalTodos = it
+                internalTodos = it.onEach { item -> item.settings = settings }
                 filterAndSortTodos()
             }
         }
