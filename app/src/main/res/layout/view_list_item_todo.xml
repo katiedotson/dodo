@@ -113,7 +113,7 @@
         <TextView
             android:id="@+id/notes"
             style="@style/TextAppearance.Dodo.Body1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/standard_padding"
             android:layout_marginTop="@dimen/standard_padding"
