@@ -60,7 +60,7 @@ class TodoAdapter(private val settings: UserSettingsDto, private val clickListen
             // notes
             val showNotes = settings.showNotes
             binding.notes.text = if (showNotes) item.notes else null
-            binding.notes.toggleGone(showNotes)
+            binding.notes.toggleGone(showNotes && item.notes.isNotEmpty())
 
             binding.editBtn.setOnClickListener {
                 clickListener.onEditButtonClicked(item)
