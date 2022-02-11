@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import xyz.katiedotson.dodo.common.extensions.toggleGone
-import xyz.katiedotson.dodo.common.extensions.toggleVisible
 import xyz.katiedotson.dodo.data.todo.TodoDto
+import xyz.katiedotson.dodo.data.usersettings.UserSettingsDto
 import xyz.katiedotson.dodo.databinding.ViewListItemTodoBinding
 import xyz.katiedotson.dodo.ui.views.LabelChip
 
-class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<TodoDto, TodoAdapter.TodoViewHolder>(TodoDiffCallback()) {
+class TodoAdapter(private val settings: UserSettingsDto, private val clickListener: TodoClickListeners) : ListAdapter<TodoDto, TodoAdapter.TodoViewHolder>(TodoDiffCallback()) {
 
     interface TodoClickListeners {
         fun onEditButtonClicked(todo: TodoDto)
@@ -20,7 +20,7 @@ class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<T
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         val todo = getItem(position)
-        holder.bind(todo, clickListener)
+        holder.bind(todo, settings, clickListener)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
@@ -30,37 +30,37 @@ class TodoAdapter(private val clickListener: TodoClickListeners) : ListAdapter<T
     }
 
     class TodoViewHolder(private val binding: ViewListItemTodoBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: TodoDto, clickListener: TodoClickListeners) {
+        fun bind(item: TodoDto, settings: UserSettingsDto, clickListener: TodoClickListeners) {
 
             // title
             binding.title.text = item.description
 
             // due date
-            val showDate = item.dueDateExists() && item.settings?.showDueDate == true
+            val showDate = item.dueDateExists() && settings.showDueDate
             binding.date.text = if (showDate) item.formattedDueDate() else null
             binding.dueDateLayout.toggleGone(showDate)
 
             // last update
-            val showLastUpdate = item.settings?.showLastUpdate == true
+            val showLastUpdate = settings.showLastUpdate
             binding.lastUpdateDate.text = if (showLastUpdate) item.formattedLastUpdate() else null
             binding.lastUpdateDateLayout.toggleGone(showLastUpdate)
 
             // created date
-            val showCreatedDate = item.settings?.showDateCreated == true
+            val showCreatedDate = settings.showDateCreated
             binding.createdDate.text = if (showCreatedDate) item.formattedDateCreated() else null
             binding.createdDateLayout.toggleGone(showCreatedDate)
 
             // labels
             binding.labels.removeAllViews()
-            if (item.labelDto != null && item.settings?.showLabel == true) {
+            if (item.labelDto != null && settings.showLabel) {
                 val labelChip = LabelChip(binding.labels.context, item.labelDto, LabelChip.Mode.Display)
                 binding.labels.addView(labelChip)
             }
 
             // notes
-            val showNotes = item.settings?.showNotes == true
+            val showNotes = settings.showNotes
             binding.notes.text = if (showNotes) item.notes else null
-            binding.notes.toggleVisible(showNotes)
+            binding.notes.toggleGone(showNotes)
 
             binding.editBtn.setOnClickListener {
                 clickListener.onEditButtonClicked(item)

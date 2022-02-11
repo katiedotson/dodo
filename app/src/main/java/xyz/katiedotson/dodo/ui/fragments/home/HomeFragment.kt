@@ -20,6 +20,7 @@ import xyz.katiedotson.dodo.R
 import xyz.katiedotson.dodo.common.extensions.toggleGone
 import xyz.katiedotson.dodo.common.extensions.toggleVisible
 import xyz.katiedotson.dodo.data.todo.TodoDto
+import xyz.katiedotson.dodo.data.usersettings.UserSettingsDto
 import xyz.katiedotson.dodo.databinding.FragmentHomeBinding
 import xyz.katiedotson.dodo.ui.base.BaseFragment
 import xyz.katiedotson.dodo.ui.fragments.home.recycler.TodoAdapter
@@ -44,35 +45,6 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
             showSuccess(binding.root)
         }
 
-        val adapter = TodoAdapter(object : TodoAdapter.TodoClickListeners {
-            override fun onEditButtonClicked(todo: TodoDto) {
-                val directions = HomeFragmentDirections.actionHomeFragmentToAddEditFragment(todo.id)
-                mainNavController.navigate(directions)
-            }
-
-            override fun onDeleteButtonClicked(todo: TodoDto) {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setCancelable(true)
-                    .setTitle(getString(R.string.home_delete_this_item))
-                    .setMessage(getString(R.string.home_delete_confirm))
-                    .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .setPositiveButton(getString(R.string.home_delete_yes)) { _, _ ->
-                        viewModel.deleteTodo(todo)
-                    }
-                    .show()
-            }
-        })
-        val itemAnimator: DefaultItemAnimator = object : DefaultItemAnimator() {
-            override fun animateAdd(holder: RecyclerView.ViewHolder?): Boolean {
-                dispatchAddFinished(holder)
-                return false
-            }
-        }
-        binding.recycler.itemAnimator = itemAnimator
-        binding.recycler.adapter = adapter
-
         lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.labels.collect { labels ->
@@ -86,11 +58,11 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
         }
 
         with(viewModel) {
-            todos.observe(viewLifecycleOwner) {
-                adapter.submitList(it)
-                binding.emptyStateContainer.toggleVisible(it.count() == 0 && !viewModel.todosExist())
-                binding.allFilteredContainer.toggleVisible(it.count() == 0 && viewModel.todosExist())
-                binding.recycler.toggleVisible(it.count() != 0)
+            mediator.observe(viewLifecycleOwner) {
+                if (it.todos != null && it.settings != null) {
+                    buildAdapter(it.todos, it.settings, binding)
+                    binding.filtersContainer.toggleGone(it.settings.allowFilteringByLabels)
+                }
             }
 
             deleteEvent.observe(viewLifecycleOwner) {
@@ -105,10 +77,6 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
                         // no op
                     }
                 }
-            }
-
-            userSettingsLiveData.observe(viewLifecycleOwner) {
-                binding.filtersContainer.toggleGone(it.allowFilteringByLabels)
             }
         }
 
@@ -144,6 +112,43 @@ class HomeFragment @Inject constructor() : BaseFragment(R.layout.fragment_home) 
             }
         }
 
+    }
+
+    private fun buildAdapter(todos: List<TodoDto>, settings: UserSettingsDto, binding: FragmentHomeBinding) {
+
+        val adapter = TodoAdapter(settings, object : TodoAdapter.TodoClickListeners {
+            override fun onEditButtonClicked(todo: TodoDto) {
+                val directions = HomeFragmentDirections.actionHomeFragmentToAddEditFragment(todo.id)
+                mainNavController.navigate(directions)
+            }
+
+            override fun onDeleteButtonClicked(todo: TodoDto) {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setCancelable(true)
+                    .setTitle(getString(R.string.home_delete_this_item))
+                    .setMessage(getString(R.string.home_delete_confirm))
+                    .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton(getString(R.string.home_delete_yes)) { _, _ ->
+                        viewModel.deleteTodo(todo)
+                    }
+                    .show()
+            }
+        })
+        val itemAnimator: DefaultItemAnimator = object : DefaultItemAnimator() {
+            override fun animateAdd(holder: RecyclerView.ViewHolder?): Boolean {
+                dispatchAddFinished(holder)
+                return false
+            }
+        }
+        binding.recycler.itemAnimator = itemAnimator
+        binding.recycler.adapter = adapter
+
+        adapter.submitList(todos)
+        binding.emptyStateContainer.toggleVisible(show = todos.count() == 0 && !viewModel.todosExist())
+        binding.allFilteredContainer.toggleVisible(show = todos.count() == 0 && viewModel.todosExist())
+        binding.recycler.toggleVisible(show = todos.count() != 0)
     }
 
     private fun navigateToAddEditNew() {

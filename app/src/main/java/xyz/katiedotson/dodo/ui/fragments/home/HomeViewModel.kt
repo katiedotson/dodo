@@ -1,9 +1,6 @@
 package xyz.katiedotson.dodo.ui.fragments.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -25,11 +22,18 @@ class HomeViewModel @Inject constructor(
     settingsRepository: UserSettingsRepository
 ) : ViewModel() {
 
-    val todos: LiveData<List<TodoDto>> get() = _todos
     private val _todos: MutableLiveData<List<TodoDto>> = MutableLiveData()
-
-    val userSettingsLiveData: LiveData<UserSettingsDto> get() = _userSettingsLiveData
     private val _userSettingsLiveData = MutableLiveData<UserSettingsDto>()
+
+    val mediator: MediatorLiveData<DataState> = MediatorLiveData<DataState>().apply {
+        this.value = DataState(todos = null, settings = null)
+        this.addSource(_todos) {
+            this.value = this.value?.copy(todos = it)
+        }
+        this.addSource(_userSettingsLiveData) {
+            this.value = this.value?.copy(settings = it)
+        }
+    }
 
     val labels = labelRepository.labelsFlow
 
@@ -45,7 +49,7 @@ class HomeViewModel @Inject constructor(
             _userSettingsLiveData.value = settings
             todoRepository.todosFlow.collect {
                 _todos.value = it
-                internalTodos = it.onEach { item -> item.settings = settings }
+                internalTodos = it
                 filterAndSortTodos()
             }
         }
@@ -108,5 +112,7 @@ class HomeViewModel @Inject constructor(
         object Success : DeleteEvent()
         data class Failure(val error: DodoError) : DeleteEvent()
     }
+
+    data class DataState(val todos: List<TodoDto>?, val settings: UserSettingsDto?)
 
 }

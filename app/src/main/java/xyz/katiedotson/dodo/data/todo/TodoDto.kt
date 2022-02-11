@@ -17,8 +17,7 @@ data class TodoDto(
     val labelColor: String?,
     val labelName: String?,
     val useWhiteText: Boolean?,
-    val useBorder: Boolean?,
-    var settings: UserSettingsDto? = null
+    val useBorder: Boolean?
 ) {
 
     val labelDto: LabelDto? = if (labelName != null && labelColor != null) LabelDto(
